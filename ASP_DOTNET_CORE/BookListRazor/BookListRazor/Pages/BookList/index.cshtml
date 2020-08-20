@@ -16,7 +16,7 @@
     </div>
 
     <div class="container mt-3 border">
-        <form action="/" method="post">
+        <form method="post">
             @* It is post because we will do some edit and delete in here *@
             @if (Model.Books.Count() > 0)
             {
@@ -47,7 +47,7 @@
                             </td>
                             <td>
                                 <a asp-page="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm text-white">Edit</a>
-                                <button class="btn btn-danger btn-sm">Delete</button>
+                                <button asp-page-handler="Delete" asp-route-id="@item.Id" onclick="return confirm(`Do you want to Delete the item?`)" class="btn btn-danger btn-sm">Delete</button>
                             </td>
                         </tr>
                     }

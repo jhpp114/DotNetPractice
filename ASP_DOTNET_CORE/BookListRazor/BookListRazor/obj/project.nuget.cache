@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4F4wwHRwtBMx/wu+L1ZJDN+y9N3UX966xEnOR/8Xz5Vbd2Vm7eVDO0JY3wPazwKQC9o+3fHfY/mCa+MLVaarOA==",
+  "dgSpecHash": "w4UBjaxMfXtMrvdQmSE1u1BDj+lUP75Qm29mJhZXPJTE8MVZRKnJwDaYicno/t0RzujVMqkL5QIeXvBoHBJT3g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\jhpp1\\Desktop\\ASP_DOTNET_CORE\\BookListRazor\\BookListRazor\\BookListRazor.csproj",
+  "projectFilePath": "C:\\Users\\jhpp1\\Desktop\\DotNetPractice\\ASP_DOTNET_CORE\\BookListRazor\\BookListRazor\\BookListRazor.csproj",
   "expectedPackageFiles": [
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\jhpp1\\.nuget\\packages\\microsoft.aspnetcore.mvc.razor.extensions\\3.1.6\\microsoft.aspnetcore.mvc.razor.extensions.3.1.6.nupkg.sha512",

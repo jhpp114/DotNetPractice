@@ -8298,11 +8298,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\jhpp1\\Desktop\\ASP_DOTNET_CORE\\BookListRazor\\BookListRazor\\BookListRazor.csproj",
+      "projectUniqueName": "C:\\Users\\jhpp1\\Desktop\\DotNetPractice\\ASP_DOTNET_CORE\\BookListRazor\\BookListRazor\\BookListRazor.csproj",
       "projectName": "BookListRazor",
-      "projectPath": "C:\\Users\\jhpp1\\Desktop\\ASP_DOTNET_CORE\\BookListRazor\\BookListRazor\\BookListRazor.csproj",
+      "projectPath": "C:\\Users\\jhpp1\\Desktop\\DotNetPractice\\ASP_DOTNET_CORE\\BookListRazor\\BookListRazor\\BookListRazor.csproj",
       "packagesPath": "C:\\Users\\jhpp1\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\jhpp1\\Desktop\\ASP_DOTNET_CORE\\BookListRazor\\BookListRazor\\obj\\",
+      "outputPath": "C:\\Users\\jhpp1\\Desktop\\DotNetPractice\\ASP_DOTNET_CORE\\BookListRazor\\BookListRazor\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
