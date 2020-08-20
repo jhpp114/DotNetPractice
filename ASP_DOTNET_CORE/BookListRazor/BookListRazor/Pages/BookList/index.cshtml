@@ -1,0 +1,63 @@
+﻿@page
+@model BookListRazor.Pages.BookList.indexModel
+@{
+    ViewData["Title"] = "index";
+}
+
+    <div class="container">
+        <div class="row">
+            <header class="col-md-9">
+                <h1 class="text-info">Book</h1>
+            </header>
+            <div class="col-md-3">
+                <a asp-page="Create" class="btn btn-info">Create New Book</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-3 border">
+        <form action="/" method="post">
+            @* It is post because we will do some edit and delete in here *@
+            @if (Model.Books.Count() > 0)
+            {
+                <table class="table">
+                    <tr>
+                        <th>
+                            <label asp-for="Books.FirstOrDefault().Book_Name"></label>
+                        </th>
+                        <th>
+                            @*@Html.DisplayFor(m => m.Books.FirstOrDefault().Author);*@
+                            <label asp-for="Books.FirstOrDefault().Author"></label>
+                        </th>
+                        <th>
+                            <label asp-for="Books.FirstOrDefault().ISBN"></label>
+                        </th>
+                    </tr>
+                    @foreach(var item in Model.Books)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(m => item.Book_Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.Author)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.ISBN)
+                            </td>
+                            <td>
+                                <a asp-page="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm text-white">Edit</a>
+                                <button class="btn btn-danger btn-sm">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            } else
+            {
+                <p>No Book Available</p>
+            }
+        </form>
+    </div>
+
+
+
