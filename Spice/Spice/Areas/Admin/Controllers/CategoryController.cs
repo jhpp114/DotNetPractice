@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Spice.Data;
+using Spice.Models;
 
 namespace Spice.Areas.Admin.Controllers
 {
@@ -22,6 +24,41 @@ namespace Spice.Areas.Admin.Controllers
         {
             var allCategory = await _db.Category.ToListAsync();
             return View(allCategory);
+        }
+
+        public async Task<IActionResult> Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                await _db.Category.AddAsync(category);
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(category);
+            }
+        }
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var foundCategory = await _db.Category.FindAsync(id);
+            if (foundCategory == null)
+            {
+                return NotFound();
+            }
+            return View(foundCategory);
         }
     }
 }
