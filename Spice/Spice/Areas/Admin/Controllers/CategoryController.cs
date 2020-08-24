@@ -60,5 +60,49 @@ namespace Spice.Areas.Admin.Controllers
             }
             return View(foundCategory);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Category.Update(category);
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(category);
+            }
+        }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var deleteItem = await _db.Category.FindAsync(id);
+            if (deleteItem == null) 
+            {
+                return NotFound();
+            }
+            return View(deleteItem);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeletePost(int id)
+        {
+            var deleteItem = await _db.Category.FindAsync(id);
+            if (deleteItem == null)
+            {
+                return NotFound();
+            }
+            _db.Category.Remove(deleteItem);
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
     }
 }
