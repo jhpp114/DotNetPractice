@@ -104,5 +104,19 @@ namespace Spice.Areas.Admin.Controllers
             await _db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> Detail(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var detailItem = await _db.Category.FindAsync(id);
+            if (detailItem == null)
+            {
+                return NotFound();
+            }
+            return View(detailItem);
+        }
     }
 }
