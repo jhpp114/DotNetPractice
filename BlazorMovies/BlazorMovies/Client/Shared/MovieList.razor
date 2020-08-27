@@ -14,10 +14,14 @@ else
     <input type="checkbox" @bind="isChecked"/>
     @foreach (var movie in Movies)
     {
-        <IndividualMovie movie="movie" buttonDisplay="isChecked"/>
+        <IndividualMovie movie="movie" buttonDisplay="isChecked" DeleteMovie="RemoveMovie"/>
     }
 }
 @code {
     [Parameter] public List<Movie> Movies { get; set; }
     public bool isChecked = false;
+    private void RemoveMovie(Movie _movie)
+    {
+        Movies.Remove(_movie);
+    }
 }
