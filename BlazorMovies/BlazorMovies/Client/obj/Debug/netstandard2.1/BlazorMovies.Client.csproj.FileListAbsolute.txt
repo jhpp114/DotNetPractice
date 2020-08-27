@@ -368,6 +368,8 @@ C:\Users\jhpp1\Desktop\DotNetPractice\BlazorMovies\BlazorMovies\Client\obj\Debug
 C:\Users\jhpp1\Desktop\DotNetPractice\BlazorMovies\BlazorMovies\Client\obj\Debug\netstandard2.1\integrity\rw6vkSUJePQfEb2XG-jxUBqDV4PfRWbH0sVSncqsku4=.hash
 C:\Users\jhpp1\Desktop\DotNetPractice\BlazorMovies\BlazorMovies\Client\obj\Debug\netstandard2.1\RazorDeclaration\Shared\MovieList.razor.g.cs
 C:\Users\jhpp1\Desktop\DotNetPractice\BlazorMovies\BlazorMovies\Client\obj\Debug\netstandard2.1\Razor\Shared\MovieList.razor.g.cs
-C:\Users\jhpp1\Desktop\DotNetPractice\BlazorMovies\BlazorMovies\Client\obj\Debug\netstandard2.1\integrity\W70AQlI0PO6KRZuwnqYOfMOdPFLGSqtn-N6WsVL5JYE=.hash
-C:\Users\jhpp1\Desktop\DotNetPractice\BlazorMovies\BlazorMovies\Client\obj\Debug\netstandard2.1\integrity\L78pw3unR3EJ5Fql-gjHuymdvY4f97kAHBJZSn0tSfs=.hash
-C:\Users\jhpp1\Desktop\DotNetPractice\BlazorMovies\BlazorMovies\Client\obj\Debug\netstandard2.1\integrity\UWt2mR8pxUo0lEkxXpsKYdyr1c-7yIxjzSD_VzhGOxA=.hash
+C:\Users\jhpp1\Desktop\DotNetPractice\BlazorMovies\BlazorMovies\Client\obj\Debug\netstandard2.1\RazorDeclaration\Shared\IndividualMovie.razor.g.cs
+C:\Users\jhpp1\Desktop\DotNetPractice\BlazorMovies\BlazorMovies\Client\obj\Debug\netstandard2.1\Razor\Shared\IndividualMovie.razor.g.cs
+C:\Users\jhpp1\Desktop\DotNetPractice\BlazorMovies\BlazorMovies\Client\obj\Debug\netstandard2.1\integrity\lBhGdhjKJFf2mm1erkRIFLyP87yixP_YUY-QMxGK-fU=.hash
+C:\Users\jhpp1\Desktop\DotNetPractice\BlazorMovies\BlazorMovies\Client\obj\Debug\netstandard2.1\integrity\zO5W5LcNQUiZ9lCZ4Oul9USMrSYM3AWUmTYqOZgrjHk=.hash
+C:\Users\jhpp1\Desktop\DotNetPractice\BlazorMovies\BlazorMovies\Client\obj\Debug\netstandard2.1\integrity\iT80qrxuzhaLgSY7b2b0IdZ13wUNGNTwCxq_TWXX9Hk=.hash

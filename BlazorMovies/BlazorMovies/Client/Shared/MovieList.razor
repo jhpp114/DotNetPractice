@@ -11,12 +11,13 @@ else if (Movies.Count() == 0)
 }
 else
 {
+    <input type="checkbox" @onchange="( ()=> isChecked = !isChecked)"/>
     @foreach (var movie in Movies)
     {
-        <p>Title: @movie.Title</p>
-        <p>Released Date: @movie.ReleaseDate.ToString("dd/MMM/yyyy")</p>
+        <IndividualMovie movie="movie" buttonDisplay="isChecked"/>
     }
 }
 @code {
     [Parameter] public List<Movie> Movies { get; set; }
+    public bool isChecked = false;
 }
