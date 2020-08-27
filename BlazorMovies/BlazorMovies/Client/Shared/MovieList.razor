@@ -11,7 +11,7 @@ else if (Movies.Count() == 0)
 }
 else
 {
-    <input type="checkbox" @onchange="( ()=> isChecked = !isChecked)"/>
+    <input type="checkbox" @bind="isChecked"/>
     @foreach (var movie in Movies)
     {
         <IndividualMovie movie="movie" buttonDisplay="isChecked"/>
