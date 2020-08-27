@@ -1,0 +1,21 @@
+﻿@page "/"
+
+<div>
+    <h3>Movies</h3>
+    <MovieList Movies="@movies"/>
+
+</div>
+@code {
+    private List<Movie> movies;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(3000);
+        movies = new List<Movie>()
+        {
+            new Movie() {Title="Spiderman Homecoming", ReleaseDate=new DateTime(2017, 07, 06)}
+        ,   new Movie() {Title="Moana", ReleaseDate=new DateTime(2016, 11, 23)}
+        ,   new Movie() {Title="Inception", ReleaseDate=new DateTime(2010, 07, 16)}
+        };
+    }
+}
