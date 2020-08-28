@@ -15,7 +15,7 @@
                     <label class="col-form-label">Category</label>
                 </div>
                 <div class="col-5">
-                    <select class="form-control" asp-for="SubCategory.CategoryId" asp-items="@(new SelectList(Model.CategoryList, "Id", "Name"))">
+                    <select id="selectedCategory" class="form-control" asp-for="SubCategory.CategoryId" asp-items="@(new SelectList(Model.CategoryList, "Id", "Name"))">
                     </select>
                 </div>
             </div>
@@ -54,3 +54,28 @@
         }
     </div>
 </main>
+
+
+@section Scripts {
+    <script>
+        fetchSubcategoryList();
+        async function fetchSubcategoryList() {
+            let selected_id = document.querySelector('#selectedCategory').value;
+            console.log(selected_id);
+            const subcategoryUrl = `/Admin/Subcategory/GetSubcategory/${selected_id}`;
+            const response = await fetch(subcategoryUrl);
+            const data = await response.json();
+            console.log(data);
+            const ul_tag = document.querySelector('.list-group');
+            data.forEach((sub_item) => {
+                let li_tag = document.createElement('li');
+                li_tag.classList.add('list-group-item');
+                li_tag.textContent = sub_item.text;
+                console.log(sub_item.text);
+                console.log(li_tag);
+                ul_tag.appendChild(li_tag);
+            });
+        }
+        //window.addEventListener('load', )
+    </script>
+}

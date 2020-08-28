@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Spice.Data;
 using Spice.Models.ViewModels;
 using Spice.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Spice.Areas.Admin.Controllers
 {
@@ -70,11 +71,10 @@ namespace Spice.Areas.Admin.Controllers
         [ActionName("GetSubcategory")]
         public async Task<IActionResult> GetSubcategory(int id)
         {
-            List<SubCategory> subcategoryItems = new List<SubCategory>();
-            subcategoryItems = await (from subcategory_item in _db.SubCategory
-                                    where id == subcategory_item.CategoryId
-                                    select subcategory_item.Name).ToListAsync();
-            return Json(subcategoryItems);
+            var subcategoryItems = await (from sub in _db.SubCategory 
+                                      where id == sub.CategoryId 
+                                      select sub).ToListAsync();
+            return Json(new SelectList(subcategoryItems, "Id", "Name"));
         }
 
     }
