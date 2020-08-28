@@ -15,7 +15,8 @@ namespace Spice.Areas.Admin.Controllers
     public class SubCategory : Controller
     {
         private readonly ApplicationDbContext _db;
-
+        [TempData]
+        public string StatusMessage { get; set; }
         public SubCategory(ApplicationDbContext db)
         {
             _db = db;
@@ -48,6 +49,7 @@ namespace Spice.Areas.Admin.Controllers
                 if (doesExistAlready.Count() > 0)
                 {
                     // error
+                    StatusMessage = "Error: This Subcategory is already exist in " + doesExistAlready.First().Category.Name;
                 }
                 else
                 {
@@ -61,8 +63,19 @@ namespace Spice.Areas.Admin.Controllers
                 CategoryList = await _db.Category.ToListAsync()
             ,   SubCategory = _subcategoryData.SubCategory
             ,   SubCategoryList = await _db.SubCategory.OrderBy(p => p.Name).Select(p => p.Name).ToListAsync()
+            ,   StatusMessage = StatusMessage
             };
             return View(errorSubCategory);
         }
+        [ActionName("GetSubcategory")]
+        public async Task<IActionResult> GetSubcategory(int id)
+        {
+            List<SubCategory> subcategoryItems = new List<SubCategory>();
+            subcategoryItems = await (from subcategory_item in _db.SubCategory
+                                    where id == subcategory_item.CategoryId
+                                    select subcategory_item.Name).ToListAsync();
+            return Json(subcategoryItems);
+        }
+
     }
 }
