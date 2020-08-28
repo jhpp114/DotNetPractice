@@ -136,7 +136,22 @@ namespace Spice.Areas.Admin.Controllers
             ,   StatusMessage = StatusMessage
             };
             return View(errorSubCategory);
-
+        }
+        
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            CategoryAndSubCategoryViewModel detailItem = new CategoryAndSubCategoryViewModel();
+            detailItem.SubCategory = await _db.SubCategory.FindAsync(id);
+            detailItem.CategoryList = await _db.Category.ToListAsync();
+            if (detailItem == null)
+            {
+                return NotFound();
+            }
+            return View(detailItem);
         }
     }
 }

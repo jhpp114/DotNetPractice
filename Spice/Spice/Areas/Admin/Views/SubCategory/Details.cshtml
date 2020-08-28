@@ -1,0 +1,33 @@
+﻿@model Spice.Models.ViewModels.CategoryAndSubCategoryViewModel 
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h1 class="text-info">@Model.SubCategory.Name Details</h1>
+<main class="search_background_white">
+    <div class="form-group row">
+        <div class="col-3">
+            <label class="col-form-label" asp-for="SubCategory.Name"></label>
+        </div>
+        <div class="col-5">
+            <input class="form-control" readonly asp-for="SubCategory.Name" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-3">
+            <label class="col-form-label" asp-for="SubCategory.Category.Name"></label>
+        </div>
+        <div class="col-5">
+            <input readonly class="form-control" asp-for="SubCategory.Category.Name"/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-3">
+            <a asp-action="Index">Go Back</a>
+        </div>
+        <div class="col-5">
+            <a class="btn btn-info btn-block" asp-action="Edit" asp-route-id="@Model.SubCategory.Id">Go to Edit</a>
+        </div>
+    </div>
+</main>
