@@ -153,5 +153,17 @@ namespace Spice.Areas.Admin.Controllers
             }
             return View(detailItem);
         }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            CategoryAndSubCategoryViewModel deleteItem = new CategoryAndSubCategoryViewModel();
+            deleteItem.SubCategory = await _db.SubCategory.FindAsync(id);
+            deleteItem.CategoryList = await _db.Category.ToListAsync();
+            return View(deleteItem);
+        }
     }
 }

@@ -1,0 +1,36 @@
+﻿@model Spice.Models.ViewModels.CategoryAndSubCategoryViewModel
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h1 class="text-danger">Delete Subcategory @Model.SubCategory.Name</h1>
+<main class="search_background_white">
+    <form asp-action="Delete" method="post">
+        <div class="form-group row">
+            <div class="col-2">
+                <label class="col-form-label" asp-for="SubCategory.Name"></label>
+            </div>
+            <div class="col-5">
+                <input class="form-control" readonly asp-for="SubCategory.Name"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label class="col-form-label" asp-for="SubCategory.Category.Name"></label>
+            </div>
+            <div class="col-5">
+                <input readonly class="form-control" asp-for="SubCategory.Category.Name"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <a asp-action="Index">Go Back</a>
+            </div>
+            <div class="col-5">
+                <input class="btn btn-danger btn-block" asp-route-id="@Model.SubCategory.Id" type="submit" value="Delete"/>
+            </div>
+        </div>
+    </form>
+</main>
+
