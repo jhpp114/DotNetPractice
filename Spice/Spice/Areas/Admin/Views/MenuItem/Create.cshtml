@@ -55,7 +55,8 @@
                 <div class="col-6">
                     <select asp-for="MenuItem.SubCategoryId"
                             asp-items="@(new SelectList(string.Empty, "Id", "Name"))"
-                            class="form-control">
+                            class="form-control"
+                            id="subcategory_id">
                     </select>
                 </div>
             </div>
@@ -99,12 +100,23 @@
         });
     
         GetSubcategoryData();
+        
         async function GetSubcategoryData() {
+            const subcategorySelect = document.querySelector('#subcategory_id');
             const category = document.querySelector('#selectedCategory').value;
             const URL_Fetch = `/Admin/MenuItem/GetSubcategoryItems/${category}`;
             const response = await fetch(URL_Fetch);
             const data = await response.json();
             console.log(data);
+            subcategorySelect.innerHTML = '';
+            data.forEach((sub_data) => {
+                let option = document.createElement('option');
+                option.value = sub_data.value;
+                option.textContent = sub_data.text;
+                subcategorySelect.appendChild(option);
+            });
         }
+        categorySelected = document.querySelector('#selectedCategory');
+        categorySelected.addEventListener('change', GetSubcategoryData);
     </script>
 }
