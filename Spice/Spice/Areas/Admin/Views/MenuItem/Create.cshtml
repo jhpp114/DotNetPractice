@@ -43,7 +43,8 @@
                 <div class="col-6">
                     <select asp-for="MenuItem.CategoryId"
                             asp-items="@(new SelectList(Model.Category, "Id", "Name"))"
-                            class="form-control">
+                            class="form-control"
+                            id="selectedCategory">
                     </select>
                 </div>
             </div>
@@ -96,5 +97,14 @@
         tinymce.init({
             selector: 'textarea'
         });
+    
+        GetSubcategoryData();
+        async function GetSubcategoryData() {
+            const category = document.querySelector('#selectedCategory').value;
+            const URL_Fetch = `/Admin/MenuItem/GetSubcategoryItems/${category}`;
+            const response = await fetch(URL_Fetch);
+            const data = await response.json();
+            console.log(data);
+        }
     </script>
 }

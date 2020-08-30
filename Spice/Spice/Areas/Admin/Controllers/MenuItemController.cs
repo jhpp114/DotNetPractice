@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Spice.Data;
@@ -38,6 +39,13 @@ namespace Spice.Areas.Admin.Controllers
         public async Task<IActionResult> Create()
         {
             return View(_MenuitemViewModel);
+        }
+
+        [ActionName("GetSubcategoryItems")]
+        public async Task<IActionResult> GetSubcategoryItems(int id)
+        {
+            var subcategoryData = await _db.SubCategory.Where(m => m.CategoryId == id).ToListAsync();
+            return Json(new SelectList(subcategoryData, "Id", "Name"));
         }
     }
 }
