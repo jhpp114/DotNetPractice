@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Spice.Data;
 using Spice.Models;
 using Spice.Models.ViewModels;
+using Spice.Utility;
 
 namespace Spice.Areas.Admin.Controllers
 {
@@ -77,8 +78,13 @@ namespace Spice.Areas.Admin.Controllers
             }
             else
             {
-
+                var uploadPath = Path.Combine(webRootPath, @"Images\" + StaticDetail.DefaultImage);
+                // copy this file from folder
+                System.IO.File.Copy(uploadPath, webRootPath+@"\Images\"+_MenuitemViewModel.MenuItem.Id+".png");
+                menuItemFromDb.Image = @"\Images\" + _MenuitemViewModel.MenuItem.Id + ".png";
             }
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
     }
 }
