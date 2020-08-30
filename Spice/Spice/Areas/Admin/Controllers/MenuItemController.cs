@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
@@ -46,6 +47,38 @@ namespace Spice.Areas.Admin.Controllers
         {
             var subcategoryData = await _db.SubCategory.Where(m => m.CategoryId == id).ToListAsync();
             return Json(new SelectList(subcategoryData, "Id", "Name"));
+        }
+
+        [HttpPost, ActionName("Create")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreatePost()
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(_MenuitemViewModel);
+            }
+            
+            await _db.MenuItem.AddAsync(_MenuitemViewModel.MenuItem);
+            await _db.SaveChangesAsync();
+            // work on the image
+            var webRootPath = _webhost.WebRootPath;
+            var files = HttpContext.Request.Form.Files;
+            var menuItemFromDb = await _db.MenuItem.FindAsync(_MenuitemViewModel.MenuItem.Id);
+            if (files.Count > 0)
+            {
+                var path = Path.Combine(webRootPath, "Images");
+                var extension = Path.GetExtension(files[0].FileName);
+                var fullPath = Path.Combine(path, _MenuitemViewModel.MenuItem.Id + extension);
+                using (var fileStream = new FileStream(fullPath, FileMode.Create))
+                {
+                    files[0].CopyTo(fileStream);
+                }
+                menuItemFromDb.Image = @"\images\" + _MenuitemViewModel.MenuItem.Id + extension;
+            }
+            else
+            {
+
+            }
         }
     }
 }
