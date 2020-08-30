@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Spice.Data;
+using Spice.Models;
+using Spice.Models.ViewModels;
 
 namespace Spice.Areas.Admin.Controllers
 {
@@ -15,15 +18,26 @@ namespace Spice.Areas.Admin.Controllers
         private readonly ApplicationDbContext _db;
         private readonly IWebHostEnvironment _webhost;
         
+        [BindProperty]
+        public MenuitemViewModel _MenuitemViewModel { get; set; }
         public MenuItemController(ApplicationDbContext db, IWebHostEnvironment webhost)
         {
             _db = db;
             _webhost = webhost;
+            _MenuitemViewModel = new MenuitemViewModel()
+            {
+                Category = _db.Category,
+                MenuItem = new MenuItem()
+            };
         }
         public async Task<IActionResult> Index()
         {
             var allMenuItems = await _db.MenuItem.Include(s => s.Category).Include(s => s.SubCategory).ToListAsync();
             return View(allMenuItems);
+        }
+        public async Task<IActionResult> Create()
+        {
+            return View(_MenuitemViewModel);
         }
     }
 }
