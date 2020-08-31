@@ -1,0 +1,127 @@
+﻿@model Spice.Models.ViewModels.MenuitemViewModel
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h1 class="text-info">Edit Menuitem</h1>
+<main class="search_background_white row">
+    <div class="col-8">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="MenuItem.Id" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="MenuItem.Name" class="col-form-label"></label>
+                </div>
+                <div class="col-6">
+                    <input asp-for="MenuItem.Name" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="MenuItem.Description" class="col-form-label"></label>
+                </div>
+                <div class="col-6">
+                    @Html.TextAreaFor(m => m.MenuItem.Description)
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="MenuItem.Price" class="col-form-label"></label>
+                </div>
+                <div class="col-6">
+                    <input asp-for="MenuItem.Price" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="MenuItem.CategoryId" class="col-form-label"></label>
+                </div>
+                <div class="col-6">
+                    <select
+                            asp-for="MenuItem.CategoryId"
+                            asp-items="@(new SelectList(Model.Category, "Id", "Name"))"
+                            class="form-control"
+                            id="selectedCategory">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="MenuItem.SubCategoryId" class="col-form-label"></label>
+                </div>
+                <div class="col-6">
+                    <select
+                            asp-for="MenuItem.SubCategoryId"
+                            asp-items="@(new SelectList(string.Empty, "Id", "Name"))"
+                            class="form-control"
+                            id="subcategory_id">
+
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="MenuItem.Image" class="col-form-label"></label>
+                </div>
+                <div class="col-6">
+                    <input type="file" name="files" multiple class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="MenuItem.Spicyness" class="col-form-label"></label>
+                </div>
+                <div class="col-6">
+                    <select
+                            asp-for="MenuItem.Spicyness"
+                            asp-items="Html.GetEnumSelectList<MenuItem.Spicy_Enum>()"
+                            class="form-control">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3">
+                    <a asp-action="Index">Go Back</a>
+                </div>
+                <div class="col-6">
+                    <input class="btn btn-block btn-primary" type="submit" value="Edit" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-4">
+        <div class="form-group">
+            <img src="@Model.MenuItem.Image" alt="Food Image" width="100%" style="border: 1px solid black; border-radius: 1rem;"/>
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script>
+        tinymce.init({
+            selector: 'textarea'
+        });
+
+        GetSubcategoryData();
+
+        async function GetSubcategoryData() {
+            const subcategorySelect = document.querySelector('#subcategory_id');
+            const category = document.querySelector('#selectedCategory').value;
+            const URL_Fetch = `/Admin/MenuItem/GetSubcategoryItems/${category}`;
+            const response = await fetch(URL_Fetch);
+            const data = await response.json();
+            console.log(data);
+            subcategorySelect.innerHTML = '';
+            data.forEach((sub_data) => {
+                let option = document.createElement('option');
+                option.value = sub_data.value;
+                option.textContent = sub_data.text;
+                subcategorySelect.appendChild(option);
+            });
+        }
+        categorySelected = document.querySelector('#selectedCategory');
+        categorySelected.addEventListener('change', GetSubcategoryData);
+    </script>
+}
