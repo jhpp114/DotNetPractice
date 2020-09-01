@@ -159,5 +159,43 @@ namespace Spice.Areas.Admin.Controllers
             }
             return View(_MenuitemViewModel);
         }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            _MenuitemViewModel.MenuItem = await _db.MenuItem.Include(s => s.Category).Include(s => s.SubCategory).SingleOrDefaultAsync(s => s.Id == id);
+            if (_MenuitemViewModel.MenuItem == null)
+            {
+                return NotFound();
+            }
+            return View(_MenuitemViewModel);
+        }
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeletePost(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var deleteData = await _db.MenuItem.FindAsync(id);
+            if (deleteData == null)
+            {
+                return NotFound();
+            }
+            // delete the images
+            var webRootPath = _webhost.WebRootPath;
+            var imagePath = webRootPath + deleteData.Image;
+            if (System.IO.File.Exists(imagePath))
+            {
+                System.IO.File.Delete(imagePath);
+            }
+            _db.MenuItem.Remove(deleteData);
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
     }
 }

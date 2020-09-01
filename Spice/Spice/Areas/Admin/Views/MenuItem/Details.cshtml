@@ -20,7 +20,7 @@
                 <label asp-for="MenuItem.Description" class="col-form-label"></label>
             </div>
             <div class="col-6">
-                @Html.TextAreaFor(m => m.MenuItem.Description)
+                <textarea asp-for="MenuItem.Description" readonly class="form-control"></textarea>
             </div>
         </div>
         <div class="form-group row">
@@ -72,12 +72,3 @@
         <img src="@Model.MenuItem.Image" alt="Food Image" width="100%" style="border: 1px solid black; border-radius: 1rem;"/>
     </div>
 </main>
-
-
-@section Scripts {
-    <script>
-        tinymce.init({
-            selector: 'textarea'
-        });
-    </script>
-}
