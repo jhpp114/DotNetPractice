@@ -17,7 +17,7 @@ namespace Spice.Data.Migrations
                     CouponType = table.Column<string>(nullable: false),
                     Discount = table.Column<double>(nullable: false),
                     MinimumAmount = table.Column<double>(nullable: false),
-                    CouponImage = table.Column<byte[]>(nullable: false),
+                    CouponImage = table.Column<byte[]>(nullable: true),
                     isCouponActive = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>

@@ -19,7 +19,7 @@ namespace Spice.Models
         public double Discount { get; set; }
         [Required]
         public double MinimumAmount { get; set; }
-        [Required]
+        
         public byte[] CouponImage { get; set; }
         [Required]
         public bool isCouponActive { get; set; }
