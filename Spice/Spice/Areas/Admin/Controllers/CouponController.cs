@@ -73,5 +73,40 @@ namespace Spice.Areas.Admin.Controllers
             }
             return View(foundEditData);
         }
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditPost(Coupon _coupon)
+        {
+            if (_coupon.Id == 0)
+            {
+                return NotFound();
+            }
+            var editingData = await _db.Coupon.FindAsync(_coupon.Id);
+            if (ModelState.IsValid)
+            {
+                var files = HttpContext.Request.Form.Files;
+                if (files.Count() > 0)
+                {
+                    byte[] byteArr = null;
+                    using (var file = files[0].OpenReadStream())
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            file.CopyTo(memoryStream);
+                            byteArr = memoryStream.ToArray();
+                        }
+                    }
+                    editingData.CouponImage = _coupon.CouponImage;
+                }
+                editingData.Name = _coupon.Name;
+                editingData.CouponType = _coupon.CouponType;
+                editingData.Discount = _coupon.Discount;
+                editingData.MinimumAmount = _coupon.MinimumAmount;
+                editingData.isCouponActive = _coupon.isCouponActive;
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            return View(editingData);
+        }
     }
 }
