@@ -125,7 +125,16 @@ namespace Spice.Areas.Admin.Controllers
 
         public async Task<IActionResult> Delete(int? id)
         {
-            
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var deleteData = await _db.Coupon.FindAsync(id);
+            if (deleteData == null)
+            {
+                return NotFound();
+            }
+            return View(deleteData);
         }
     }
 }
