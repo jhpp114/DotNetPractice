@@ -66,7 +66,7 @@ namespace Spice.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var foundEditData = await _db.MenuItem.FindAsync(id);
+            var foundEditData = await _db.Coupon.FindAsync(id);
             if (foundEditData == null)
             {
                 return NotFound();

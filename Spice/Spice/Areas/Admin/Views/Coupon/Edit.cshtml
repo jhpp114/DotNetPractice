@@ -4,5 +4,81 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <br />
-<h1>Edit</h1>
-
+<h1 class="text-info">Edit Category</h1>
+@{
+    string base64String = Convert.ToBase64String(Model.CouponImage);
+    var image = string.Format($"data:image/jpg;base64,{base64String}");
+}
+<div class="border">
+    <img src="@image" alt="Alternate Text" width="100%" height="100%" />
+</div>
+<br />
+<main class="search_background_white">
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="Name" class="col-form-label"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="Name" class="form-control"/>
+            </div>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="CouponType" class="col-form-label"></label>
+            </div>
+            <div class="col-6">
+                <select
+                        asp-for="CouponType"
+                        asp-items="Html.GetEnumSelectList<Coupon.Coupon_Enum>()"
+                        class="form-control">
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="Discount" class="col-form-label"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="Discount" class="form-control"/>
+            </div>
+            <span asp-validation-for="Discount" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="MinimumAmount" class="col-form-label"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="MinimumAmount" class="form-control"/>
+            </div>
+            <span asp-validation-for="MinimumAmount" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="CouponImage" class="col-form-label"></label>
+            </div>
+            <div class="col-6">
+                <input type="file" name="files" multiple id="couponImage" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="isCouponActive" class="col-form-label"></label>
+            </div>
+            <div class="col-6">
+                <input type="checkbox" asp-for="isCouponActive" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-3">
+                <a asp-action="Index">Go Back</a>
+            </div>
+            <div class="col-6">
+                <input type="submit" value="Edit" class="btn btn-info btn-block"/>
+            </div>
+        </div>
+    </form>
+</main>

@@ -218,3 +218,4 @@ C:\Users\jhpp1\Desktop\DotNetPractice\Spice\Spice\obj\Debug\netcoreapp3.1\Razor\
 C:\Users\jhpp1\Desktop\DotNetPractice\Spice\Spice\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\MenuItem\Delete.cshtml.g.cs
 C:\Users\jhpp1\Desktop\DotNetPractice\Spice\Spice\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Coupon\Index.cshtml.g.cs
 C:\Users\jhpp1\Desktop\DotNetPractice\Spice\Spice\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Coupon\Create.cshtml.g.cs
+C:\Users\jhpp1\Desktop\DotNetPractice\Spice\Spice\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Coupon\Edit.cshtml.g.cs
