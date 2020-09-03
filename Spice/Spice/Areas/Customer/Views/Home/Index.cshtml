@@ -1,8 +1,39 @@
-﻿@{
+﻿@model Spice.Models.ViewModels.IndexViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
+<br />
+<button class="btn btn-sm btn-primary displayCoup">Display Available Coupons</button>
+<div class="border displayPossibleCoupon" style="display:none">
+    @for (int i = 0; i < Model.Coupon.ToList().Count(); i++)
+    {
+        <div class="carousel-item">
+            @{
+                string string64 = Convert.ToBase64String(Model.Coupon.ToList()[i].CouponImage);
+                var image = string.Format($"data:image/jpg;base64,{string64}");
+            }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+        </div>
+        <br />
+        <img src="@image" alt="Coupon Image" width="80%"/>
+    }
 </div>
+
+
+
+@section Scripts{ 
+    <script>
+        const displayCoup = document.querySelector('.displayCoup');
+        displayCoup.addEventListener("click", toggleCoupon);
+        
+        function toggleCoupon() {
+            const couponContainer = document.querySelector('.displayPossibleCoupon');
+            console.log(couponContainer.getAttribute("style"));
+            if (couponContainer.getAttribute("style") == "display:none") {
+                couponContainer.setAttribute("style", "display:block");
+            } else {
+                couponContainer.setAttribute("style", "display:none");
+            }
+        }
+    </script>
+} 
