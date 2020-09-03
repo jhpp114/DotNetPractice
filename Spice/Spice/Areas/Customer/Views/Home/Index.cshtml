@@ -18,6 +18,30 @@
         <img src="@image" alt="Coupon Image" width="80%"/>
     }
 </div>
+<br /><br />
+<main class="search_background_white">
+    @foreach(var menuItem in Model.MenuItem)
+    {
+        <div class="row">
+            <h3 class="text-success">
+                @Html.DisplayFor(m => menuItem.Category.Name)
+            </h3>
+        </div>
+
+        <div class="border rounded border-info" style="padding: 0.8rem;">
+            <div class="row">
+                <div class="col-md-3 col-sm-12">
+                    <img src="@menuItem.Image" alt="Food Image" width="90%" style="border: 1px solid black; border-radius: 1rem;" />
+                </div>
+                <div class="col-md-9 col-sm-12">
+                    <p>@menuItem.Description</p>
+                </div>
+            </div>
+        </div>
+        
+     <br /><br />
+    }
+</main>
 
 
 
