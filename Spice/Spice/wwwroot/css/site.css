@@ -27,7 +27,9 @@ a {
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    min-height: 100%;
+    font-size: 14px;
+    position: relative;
 }
 @media (min-width: 768px) {
   html {
@@ -53,21 +55,11 @@ button.accept-policy {
 
 /* Sticky footer styles
 -------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
-}
+/* Customer UI Filter List*/
 
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
-}
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
 }
 
 .search_background {
@@ -79,4 +71,12 @@ body {
     padding: 1.2rem;
     border: 1px solid black;
     border-radius: 0.8rem;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
 }

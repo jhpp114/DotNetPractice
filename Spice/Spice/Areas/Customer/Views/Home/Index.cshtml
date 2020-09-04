@@ -2,8 +2,42 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+
+    <style>
+        .uiFilterContainer {
+            border: 1px solid black;
+            border-radius: 0.8rem;
+        }
+        .menu_filter_list {
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            margin: 1rem auto;
+            padding: 0.2rem;
+        }
+        .menu_filter_list li {
+            border: 1px solid black;
+            padding: 0.5rem;
+            cursor:pointer;
+            border-radius: 0.8rem;
+            transition: all 0.2s ease-in-out;
+        }
+        .menu_filter_list li:hover {
+            color: ghostwhite;
+            background-color: dimgray;
+        }
+        .active {
+            background-color: gray;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+
+
 <br />
 <button class="btn btn-sm btn-primary displayCoup">Display Available Coupons</button>
+<br /><br />
+
 <div class="border displayPossibleCoupon" style="display:none">
     @for (int i = 0; i < Model.Coupon.ToList().Count(); i++)
     {
@@ -12,16 +46,28 @@
                 string string64 = Convert.ToBase64String(Model.Coupon.ToList()[i].CouponImage);
                 var image = string.Format($"data:image/jpg;base64,{string64}");
             }
-
         </div>
         <br />
         <img src="@image" alt="Coupon Image" width="80%"/>
     }
 </div>
 <br /><br />
+<div class="uiFilterContainer">
+    <ul class="menu_filter_list">
+        <li class="active display_all_menu" data-filter=".display_all_menu">Show All</li>
+        @foreach (var category_list in Model.Category)
+        {
+            <li class="@category_list.Name.Replace(" ", string.Empty)" data-filter="@category_list.Name.Replace(" ", string.Empty)">
+                @category_list.Name
+            </li>
+        }
+    </ul>
+</div>
+<br /><br />
 <main class="search_background_white">
     @foreach(var menuItem in Model.MenuItem)
     {
+    <div class="col-12 @menuItem.Category.Name.Replace(" ", string.Empty) display_all_menu display_menus">
         <div class="row">
             <h3 class="text-success">
                 @Html.DisplayFor(m => menuItem.Category.Name)
@@ -67,8 +113,9 @@
                     <a asp-action="Details" asp-route-id="@menuItem.Id" class="btn btn-success form-control">Details</a>
                 </div>
             </div>
-            
+
         </div>
+    </div>
         
      <br /><br />
     }
@@ -79,8 +126,51 @@
 @section Scripts{ 
     <script>
         const displayCoup = document.querySelector('.displayCoup');
-        displayCoup.addEventListener("click", toggleCoupon);
-        
+        const menu_filter_lists = document.querySelectorAll('.menu_filter_list li');
+        // Event Listener
+        displayCoup. addEventListener("click", toggleCoupon);
+        //menu_filter_lists[0].addEventListener("click", getFilterValue);
+        //menu_filter_lists[1].addEventListener("click", getFilterValue);
+        for (let i = 0; i < menu_filter_lists.length; i++) {
+            menu_filter_lists[i].addEventListener("click", (e) => {
+                getFilterValue(e.target);
+               
+            });
+        }
+        //console.log(menu_filter_lists);
+
+        // functions
+        function getFilterValue(clicked_item) {
+            let clicked_filter = clicked_item.getAttribute("data-filter");
+            const display_menus = document.querySelectorAll('.display_menus');
+            const activeClass = document.querySelectorAll('.menu_filter_list li');
+
+            
+
+            // change active
+            for (let i = 0; i < activeClass.length; i++) {
+                console.log(activeClass[i].className);
+                if (activeClass[i].classList.contains("active")) {
+                    activeClass[i].classList.remove("active");
+                }
+            }
+            clicked_item.classList.add("active");
+            
+            // find clicked filter data
+            for (let i = 0; i < display_menus.length; i++) {
+                let classnameitem = display_menus[i];
+                if (classnameitem.classlist.contains(clicked_filter)) {
+                    console.log("true");
+                } else {
+                    console.log("false");
+                }
+                console.log("hello");
+            }
+            //console.log(display_menus.length);
+            //console.log(display_menus[0].className);
+            //console.log(display_menus[0].classList.contains(clicked_filter));
+        }
+
         function toggleCoupon() {
             const couponContainer = document.querySelector('.displayPossibleCoupon');
             console.log(couponContainer.getAttribute("style"));
@@ -90,5 +180,6 @@
                 couponContainer.setAttribute("style", "display:none");
             }
         }
+
     </script>
 } 
