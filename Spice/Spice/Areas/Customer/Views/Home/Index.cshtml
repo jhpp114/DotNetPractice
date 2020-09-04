@@ -48,13 +48,13 @@
             }
         </div>
         <br />
-        <img src="@image" alt="Coupon Image" width="80%"/>
+        <img src="@image" alt="Co upon Image" width="80%"/>
     }
 </div>
 <br /><br />
 <div class="uiFilterContainer">
     <ul class="menu_filter_list">
-        <li class="active display_all_menu" data-filter=".display_all_menu">Show All</li>
+        <li class="active display_all_menu" data-filter="display_all_menu">Show All</li>
         @foreach (var category_list in Model.Category)
         {
             <li class="@category_list.Name.Replace(" ", string.Empty)" data-filter="@category_list.Name.Replace(" ", string.Empty)">
@@ -129,8 +129,6 @@
         const menu_filter_lists = document.querySelectorAll('.menu_filter_list li');
         // Event Listener
         displayCoup. addEventListener("click", toggleCoupon);
-        //menu_filter_lists[0].addEventListener("click", getFilterValue);
-        //menu_filter_lists[1].addEventListener("click", getFilterValue);
         for (let i = 0; i < menu_filter_lists.length; i++) {
             menu_filter_lists[i].addEventListener("click", (e) => {
                 getFilterValue(e.target);
@@ -145,8 +143,6 @@
             const display_menus = document.querySelectorAll('.display_menus');
             const activeClass = document.querySelectorAll('.menu_filter_list li');
 
-            
-
             // change active
             for (let i = 0; i < activeClass.length; i++) {
                 console.log(activeClass[i].className);
@@ -155,20 +151,14 @@
                 }
             }
             clicked_item.classList.add("active");
-            
             // find clicked filter data
-            for (let i = 0; i < display_menus.length; i++) {
-                let classnameitem = display_menus[i];
-                if (classnameitem.classlist.contains(clicked_filter)) {
-                    console.log("true");
+            display_menus.forEach(function (menu_item) {
+                if (menu_item.classList.contains(clicked_filter)) {
+                    menu_item.style.display = "block";
                 } else {
-                    console.log("false");
+                    menu_item.style.display = "none";
                 }
-                console.log("hello");
-            }
-            //console.log(display_menus.length);
-            //console.log(display_menus[0].className);
-            //console.log(display_menus[0].classList.contains(clicked_filter));
+            });
         }
 
         function toggleCoupon() {
