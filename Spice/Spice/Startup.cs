@@ -37,6 +37,15 @@ namespace Spice
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddSingleton<IEmailSender, EmailSender>();
+            services.ConfigureApplicationCookie(option => {
+
+                option.LoginPath = "/Identity/Account/Login";
+
+                option.AccessDeniedPath = "/Identity/Account/AccessDenied";
+
+            });
+
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

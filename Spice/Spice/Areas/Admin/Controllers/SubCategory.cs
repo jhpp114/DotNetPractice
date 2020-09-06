@@ -9,9 +9,12 @@ using Spice.Data;
 using Spice.Models.ViewModels;
 using Spice.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
+using Spice.Utility;
 
 namespace Spice.Areas.Admin.Controllers
 {
+    [Authorize(Roles =StaticDetail.MANAGER_USER)]
     [Area("Admin")]
     public class SubCategory : Controller
     {
