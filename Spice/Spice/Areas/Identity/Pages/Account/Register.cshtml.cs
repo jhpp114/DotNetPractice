@@ -103,7 +103,7 @@ namespace Spice.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    // if the assigned role user is not customer then
+                    // if the assigning role is not exist then create the roles
                     if (!await _roleManager.RoleExistsAsync(StaticDetail.CUSTOMER_END_USER))
                     {
                         await _roleManager.CreateAsync(new IdentityRole(StaticDetail.CUSTOMER_END_USER));
