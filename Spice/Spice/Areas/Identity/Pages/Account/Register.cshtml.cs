@@ -85,6 +85,7 @@ namespace Spice.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            string checkBoxValue = Request.Form["User_Role"].ToString();
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
@@ -120,9 +121,19 @@ namespace Spice.Areas.Identity.Pages.Account
                     {
                         await _roleManager.CreateAsync(new IdentityRole(StaticDetail.MANAGER_USER));
                     }
-                    // for now just assign new user as manager
-                    await _userManager.AddToRoleAsync(user, StaticDetail.MANAGER_USER);
 
+                    if (checkBoxValue == StaticDetail.FRONTDESK_USER || checkBoxValue == StaticDetail.KITCHEN_USER || 
+                        checkBoxValue == StaticDetail.MANAGER_USER)
+                    {
+                        await _userManager.AddToRoleAsync(user, checkBoxValue);
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, StaticDetail.CUSTOMER_END_USER);
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        return LocalRedirect(returnUrl);
+                    }
+                    return RedirectToAction("Index", "User", new { area = "Admin" });
                     //_logger.LogInformation("User created a new account with password.");
 
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -142,8 +153,8 @@ namespace Spice.Areas.Identity.Pages.Account
                     //}
                     //else
                     //{
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                       
+                        
                     //}
                 }
                 foreach (var error in result.Errors)
