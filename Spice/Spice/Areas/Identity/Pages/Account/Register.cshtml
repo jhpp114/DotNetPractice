@@ -89,9 +89,15 @@
         </div>
         <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
     </div>
-    <div class="col-4 offset-2">
-        <button type="submit" class="btn btn-primary form-control">Register</button>
+    <div class="form-group row">
+        <div class="col-2">
+            <a asp-area="Customer" asp-action="Index">Go to Main View</a>
+        </div>
+        <div class="col-4">
+            <button type="submit" class="btn btn-primary form-control">Register</button>
+        </div>
     </div>
+    
 </form>
 
 @section Scripts {
