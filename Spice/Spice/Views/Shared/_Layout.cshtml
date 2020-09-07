@@ -1,4 +1,6 @@
-﻿@using Spice.Utility 
+﻿@using Spice.Utility
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,9 +43,21 @@
                                 </div>
                             </li>
                         }
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i>&nbsp; (0)</a>
-                        </li>
+                        @if (HttpContextAccessor.HttpContext.Session.GetInt32("ssCartCount") != null)
+                        {
+                            <li class="nav-item">
+                                @{
+                                    var count = HttpContextAccessor.HttpContext.Session.GetInt32("ssCartCount");
+                                }
+                                <a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i>&nbsp; @(count)</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i>&nbsp; (0)</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
