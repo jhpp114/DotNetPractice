@@ -49,7 +49,7 @@
                                 @{
                                     var count = HttpContextAccessor.HttpContext.Session.GetInt32("ssCartCount");
                                 }
-                                <a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i>&nbsp; @(count)</a>
+                                <a class="nav-link" asp-area="Customer" asp-controller="Cart" asp-action="Index"><i class="fas fa-shopping-cart"></i>&nbsp; @(count)</a>
                             </li>
                         }
                         else
