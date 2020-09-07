@@ -22,7 +22,20 @@
                             </a>
                         </div>
                     </div>
-
+                    <div class="card-body">
+                        @foreach(var item in Model.ListShoppingCarts)
+                        {
+                            <div class="row">
+                                <div class="d-none d-md-block col-2">
+                                    <img src="@item.MenuItem.Image" alt="image of foods that user added to shopping cart" width="120px"/>
+                                </div>
+                                <div class="col-sm-12 col-md-5">
+                                    <h4>@item.MenuItem.Name</h4>
+                                    <p>@item.MenuItem.Description</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
