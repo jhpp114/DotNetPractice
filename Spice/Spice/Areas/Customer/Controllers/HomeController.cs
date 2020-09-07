@@ -82,7 +82,7 @@ namespace Spice.Controllers
                     shoppingCartDb.Count += shoppingCart.Count;
                 }
                 await _db.SaveChangesAsync();
-                var count = _db.ShoppingCart.Where(s => s.ApplicationUserId == shoppingCart.ApplicationUserId && s.MenuItemId == shoppingCart.MenuItemId).ToList().Count;
+                var count = _db.ShoppingCart.Where(s => s.ApplicationUserId == shoppingCart.ApplicationUserId).ToList().Count;
                 HttpContext.Session.SetInt32("ssCartCount", count);
                 return RedirectToAction("Index");
             }
