@@ -38,13 +38,15 @@ namespace Spice
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddSingleton<IEmailSender, EmailSender>();
             services.ConfigureApplicationCookie(option => {
-
                 option.LoginPath = "/Identity/Account/Login";
-
                 option.AccessDeniedPath = "/Identity/Account/AccessDenied";
-
             });
-
+            services.AddSession(options =>
+            {
+                options.Cookie.IsEssential = true;
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+            });
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -66,7 +68,7 @@ namespace Spice
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthentication();
