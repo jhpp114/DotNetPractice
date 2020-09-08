@@ -26,15 +26,56 @@
                         @foreach(var item in Model.ListShoppingCarts)
                         {
                             <div class="row">
-                                <div class="d-none d-md-block col-2">
-                                    <img src="@item.MenuItem.Image" alt="image of foods that user added to shopping cart" width="120px"/>
+                                <div class="d-none d-md-block col-2 rounded">
+                                    <img class="rounded" src="@item.MenuItem.Image" alt="image of foods that user added to shopping cart" width="120px"/>
                                 </div>
-                                <div class="col-sm-12 col-md-5">
+                                <div class="col-sm-12 col-md-4 text-center">
                                     <h4>@item.MenuItem.Name</h4>
                                     <p>@item.MenuItem.Description</p>
                                 </div>
+                                <div class="col-sm-12 col-md-6 text-right row">
+                                    <div class="col-5">
+                                        <h6>@item.MenuItem.Price <span class="text-muted">x</span> @item.Count</h6>
+                                    </div>
+                                    <div class="col-4">
+                                        <button class="btn btn-success" type="submit" asp-action="Plus" asp-route-cartId="@item.Id">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                        <button class="btn btn-danger" type="submit" asp-action="Minus" asp-route-cartId="@item.Id">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-2">
+                                        <button class="btn btn-outline-danger" type="submit" asp-action="Remove" asp-route-cartId="@item.Id">
+                                            Remove
+                                        </button>
+                                    </div>
+                                </div> 
                             </div>
+                            <hr />
+                            <br />
                         }
+                    </div>
+                    <div>
+                        <div class="col-md-12 row">
+                            <div class="col-md-4 col-sm-3">
+                                <input asp-for="@Model.OrderHeader.CouponCode" class="form-control" placeholder="Enter a Coupon Code if you have"/>
+                            </div>
+                            <div class="col-md-4 col-sm-3">
+                                <button type="submit" asp-action="AddCoupon" class="btn btn-outline-info" id="applyCoupon">Apply Coupon</button>
+                                <button type="submit" asp-action="RemoveCoupon" class="btn btn-outline-danger" id="removeCoupon" style="display:none;">Remove Coupon</button>
+                            </div>
+                            <div class="col-md-3 text-right">
+                                <h5 class="text-info">Total (USD) <span id="orderTotal">@Model.OrderHeader.OrderTotalOriginal</span></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <br />
+                    <div class="card-footer">
+                        <div class="col-sm-12 col-md-6 text-right">
+                            <a asp-area="Customer" asp-controller="Cart" asp-action="Summary" class="btn btn-success form-control">Summary</a>
+                        </div>
                     </div>
                 </div>
             </div>
