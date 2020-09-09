@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Spice.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace Spice.Utility
         public const string FRONTDESK_USER = "FrontDesk";
         public const string CUSTOMER_END_USER = "Customer";
 
+		public const string ssCoupon = "ssCoupon";
 		public static string ConvertToRawHtml(string source)
 		{
 			char[] array = new char[source.Length];
@@ -40,6 +42,37 @@ namespace Spice.Utility
 			}
 			return new string(array, 0, arrayIndex);
 		}
+
+		public static double DiscountedPrice(Coupon couponDb, double originalOrderTotal)
+        {
+			if (couponDb == null)
+            {
+				return originalOrderTotal;
+            }
+			else
+            {
+				if (couponDb.MinimumAmount > originalOrderTotal)
+                {
+					return originalOrderTotal;
+                }
+				else
+                {
+					// since it is enum
+					if (Convert.ToInt32(couponDb.CouponType) == (int)Coupon.Coupon_Enum.Dolloar_Coupon)
+                    {
+						// coupon of dolloar
+						originalOrderTotal = Math.Round(originalOrderTotal - couponDb.Discount, 2);
+						return originalOrderTotal;
+                    }
+					if (Convert.ToInt32(couponDb.CouponType) == (int)Coupon.Coupon_Enum.Percent_Coupon)
+                    {
+						originalOrderTotal = Math.Round(originalOrderTotal - (originalOrderTotal * couponDb.Discount / 100),2);
+						return originalOrderTotal;
+					}
+                }
+				return originalOrderTotal;
+            }
+        }
 
 	}
 

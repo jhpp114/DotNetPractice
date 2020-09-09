@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Spice.Data;
@@ -49,7 +50,25 @@ namespace Spice.Areas.Customer.Controllers
                 }
             }
             orderDetailsCartViewModel.OrderHeader.OrderTotalDiscount = orderDetailsCartViewModel.OrderHeader.OrderTotalOriginal;
+            if (HttpContext.Session.GetString(StaticDetail.ssCoupon) != null)
+            {
+                orderDetailsCartViewModel.OrderHeader.CouponCode = HttpContext.Session.GetString(StaticDetail.ssCoupon);
+                var couponFromDb = await _db.Coupon.Where(s => s.Name.ToLower() == orderDetailsCartViewModel.OrderHeader.CouponCode.ToLower())
+                                                    .FirstOrDefaultAsync();
+                orderDetailsCartViewModel.OrderHeader.OrderTotalDiscount = StaticDetail.DiscountedPrice(couponFromDb, orderDetailsCartViewModel.OrderHeader.OrderTotalOriginal);
+            }
             return View(orderDetailsCartViewModel);
+        }
+
+        public async Task<IActionResult> AddCoupon()
+        {
+            if (orderDetailsCartViewModel.OrderHeader.CouponCode == null)
+            {
+                orderDetailsCartViewModel.OrderHeader.CouponCode = "";
+            }
+            // set up the session for coupon
+            HttpContext.Session.SetString(StaticDetail.ssCoupon, orderDetailsCartViewModel.OrderHeader.CouponCode);
+            return RedirectToAction("Index");
         }
     }
 }
