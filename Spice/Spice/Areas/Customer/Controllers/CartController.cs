@@ -76,5 +76,18 @@ namespace Spice.Areas.Customer.Controllers
             HttpContext.Session.SetString(StaticDetail.ssCoupon, string.Empty);
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> Plus(int cartId)
+        {
+            var cartData = await _db.ShoppingCart.Where(s => s.Id == cartId).FirstOrDefaultAsync();
+            if (cartData == null)
+            {
+                return NotFound();
+            }
+            cartData.Count += 1;
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
     }
 }
