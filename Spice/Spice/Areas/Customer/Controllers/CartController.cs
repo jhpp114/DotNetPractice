@@ -118,6 +118,12 @@ namespace Spice.Areas.Customer.Controllers
             {
                 return NotFound();
             }
+            // need to decrease the shopping cart number for this user
+            _db.ShoppingCart.Remove(cartData);
+            await _db.SaveChangesAsync();
+            var cnt = _db.ShoppingCart.Where(s => s.ApplicationUserId == cartData.ApplicationUserId).ToList().Count;
+            HttpContext.Session.SetInt32("ssCartCount", cnt);
+            return RedirectToAction("Index");
         }
     }
 }
