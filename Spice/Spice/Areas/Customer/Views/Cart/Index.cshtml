@@ -94,7 +94,7 @@
         const enteredCoupon = document.querySelector('#enteredCoupon');
         const applyCoupon = document.querySelector('#applyCoupon');
         const removeCoupon = document.querySelector('#removeCoupon');
-        enteredCoupon.addEventListener('input', isCouponEntered);
+        isCouponEntered();
         function isCouponEntered() {
             let couponData = enteredCoupon.value;
             if (couponData.length > 0) {

@@ -70,5 +70,11 @@ namespace Spice.Areas.Customer.Controllers
             HttpContext.Session.SetString(StaticDetail.ssCoupon, orderDetailsCartViewModel.OrderHeader.CouponCode);
             return RedirectToAction("Index");
         }
+
+        public IActionResult RemoveCoupon()
+        {
+            HttpContext.Session.SetString(StaticDetail.ssCoupon, string.Empty);
+            return RedirectToAction("Index");
+        }
     }
 }
