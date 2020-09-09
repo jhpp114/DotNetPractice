@@ -55,7 +55,7 @@ namespace Spice.Areas.Customer.Controllers
                 orderDetailsCartViewModel.OrderHeader.CouponCode = HttpContext.Session.GetString(StaticDetail.ssCoupon);
                 var couponFromDb = await _db.Coupon.Where(s => s.Name.ToLower() == orderDetailsCartViewModel.OrderHeader.CouponCode.ToLower())
                                                     .FirstOrDefaultAsync();
-                orderDetailsCartViewModel.OrderHeader.OrderTotalDiscount = StaticDetail.DiscountedPrice(couponFromDb, orderDetailsCartViewModel.OrderHeader.OrderTotalOriginal);
+                orderDetailsCartViewModel.OrderHeader.OrderTotalOriginal = StaticDetail.DiscountedPrice(couponFromDb, orderDetailsCartViewModel.OrderHeader.OrderTotalOriginal);
             }
             return View(orderDetailsCartViewModel);
         }
