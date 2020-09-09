@@ -89,5 +89,35 @@ namespace Spice.Areas.Customer.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> Minus(int cartId)
+        {
+            var cartData = await _db.ShoppingCart.Where(s => s.Id == cartId).FirstOrDefaultAsync();
+            if (cartData == null)
+            {
+                return NotFound();
+            }
+            if (cartData.Count == 1)
+            {
+                _db.ShoppingCart.Remove(cartData);
+                await _db.SaveChangesAsync();
+                var cnt = _db.ShoppingCart.Where(s => s.ApplicationUserId == cartData.ApplicationUserId).ToList().Count;
+                HttpContext.Session.SetInt32("ssCartCount", cnt);
+            }
+            else
+            {
+                cartData.Count -= 1;
+                await _db.SaveChangesAsync();
+            }
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Remove(int cartId)
+        {
+            var cartData = await _db.ShoppingCart.Where(s => s.Id == cartId).FirstOrDefaultAsync();
+            if (cartData == null)
+            {
+                return NotFound();
+            }
+        }
     }
 }
