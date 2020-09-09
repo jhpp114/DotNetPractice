@@ -59,7 +59,7 @@
                     <div>
                         <div class="col-md-12 row">
                             <div class="col-md-4 col-sm-3">
-                                <input asp-for="@Model.OrderHeader.CouponCode" class="form-control" placeholder="Enter a Coupon Code if you have"/>
+                                <input asp-for="@Model.OrderHeader.CouponCode" class="form-control" placeholder="Enter a Coupon Code if you have" id="enteredCoupon"/>
                             </div>
                             <div class="col-md-4 col-sm-3">
                                 <button type="submit" asp-action="AddCoupon" class="btn btn-outline-info" id="applyCoupon">Apply Coupon</button>
@@ -88,4 +88,24 @@
         </div>
     }
 </form>
+
+@section Scripts{
+    <script>
+        const enteredCoupon = document.querySelector('#enteredCoupon');
+        const applyCoupon = document.querySelector('#applyCoupon');
+        const removeCoupon = document.querySelector('#removeCoupon');
+        enteredCoupon.addEventListener('input', isCouponEntered);
+        function isCouponEntered() {
+            let couponData = enteredCoupon.value;
+            if (couponData.length > 0) {
+                applyCoupon.style.display = "none";
+                removeCoupon.style.display = "block";
+            } else {
+                applyCoupon.style.display = "block";
+                removeCoupon.style.display = "none";
+            }
+        }
+    </script>
+
+}
 
