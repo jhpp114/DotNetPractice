@@ -224,3 +224,4 @@ C:\Users\jhpp1\Desktop\DotNetPractice\Spice\Spice\obj\Debug\netcoreapp3.1\Razor\
 C:\Users\jhpp1\Desktop\DotNetPractice\Spice\Spice\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\User\Index.cshtml.g.cs
 C:\Users\jhpp1\Desktop\DotNetPractice\Spice\Spice\obj\Debug\netcoreapp3.1\Razor\Areas\Customer\Views\Home\Details.cshtml.g.cs
 C:\Users\jhpp1\Desktop\DotNetPractice\Spice\Spice\obj\Debug\netcoreapp3.1\Razor\Areas\Customer\Views\Cart\Index.cshtml.g.cs
+C:\Users\jhpp1\Desktop\DotNetPractice\Spice\Spice\obj\Debug\netcoreapp3.1\Razor\Areas\Customer\Views\Cart\Summary.cshtml.g.cs

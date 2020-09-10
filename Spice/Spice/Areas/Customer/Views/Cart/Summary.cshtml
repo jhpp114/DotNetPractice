@@ -1,0 +1,38 @@
+﻿@model Spice.Models.ViewModels.OrderDetailsCartViewModel
+@{
+    ViewData["Title"] = "Summary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<form method="post">
+    @if (Model.ListShoppingCarts.Count() > 0)
+    {
+        <input type="hidden" asp-for="@Model.ListShoppingCarts[0].Id" id="userId"/>
+        <div class="search_background_white">
+            <div class="container">
+                <div class="card">
+                    <div class="card-header bg-dark text-white-50 row">
+                        <div class="col-8">
+                            <i class="fas fa-shopping-cart"></i> &nbsp;
+                            @Model.OrderHeader.PickupName 's Order Summary
+                        </div>
+                        <div class="col-4 text-right">
+                            <a class="btn btn-sm btn-success" asp-area="Customer" asp-controller="Cart" asp-action="Index">
+                                Go Back to Shopping Cart
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+    }
+    else
+    {
+        <div class="search_background_white">
+            <p>Nothing had been added to your shopping cart</p>
+            <p>Cannot get Summary...</p>
+        </div>
+    }
+</form>
+

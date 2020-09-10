@@ -147,7 +147,7 @@ namespace Spice.Areas.Customer.Controllers
             }
             foreach(var shoppingItem in orderDetailsCartViewModel.ListShoppingCarts)
             {
-                shoppingItem.MenuItem = await _db.MenuItem.Where(s => s.Id == shoppingItem.MenuItem.Id).FirstOrDefaultAsync();
+                shoppingItem.MenuItem = await _db.MenuItem.FirstOrDefaultAsync(s => s.Id == shoppingItem.MenuItemId);
                 // update the total price
                 orderDetailsCartViewModel.OrderHeader.OrderTotalOriginal += shoppingItem.MenuItem.Price * shoppingItem.Count;
             }
@@ -164,6 +164,7 @@ namespace Spice.Areas.Customer.Controllers
                                                     .FirstOrDefaultAsync();
                 orderDetailsCartViewModel.OrderHeader.OrderTotalOriginal = StaticDetail.DiscountedPrice(couponFromDb, orderDetailsCartViewModel.OrderHeader.OrderTotalOriginal);
             }
+            return View(orderDetailsCartViewModel);
         }
     }
 }
