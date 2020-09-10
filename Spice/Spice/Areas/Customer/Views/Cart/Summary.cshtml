@@ -22,6 +22,90 @@
                             </a>
                         </div>
                     </div>
+                    <div class="card-body">
+                        <div class="container rounded p-2 row">
+                            <div class="col-12 col-md-6 p-2">
+                                <div class="row">
+                                    <h4 class="text-info">Pick Up Details</h4>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label>Name</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input class="form-control" type="text" asp-for="@Model.OrderHeader.PickupName" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label>Phone</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input class="form-control" type="text" asp-for="@Model.OrderHeader.Phonenumber" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label>Date</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input class="form-control" type="text" asp-for="@Model.OrderHeader.PickupDate"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label>Time</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input class="form-control" type="text" asp-for="@Model.OrderHeader.PickupTime"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label>Additional Comments</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <textarea class="form-control" asp-for="@Model.OrderHeader.Comments"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-5 offset-md-1">
+                                <div class="row">
+                                    <h4 class="text-info">Order Summary</h4>
+                                </div>
+                                <ul class="list-group">
+                                    @{ 
+                                        var total = 0.0;
+                                    }
+                                    @foreach(var details in Model.ListShoppingCarts)
+                                    {
+                                        <li class="list-group-item">
+                                            <div>
+                                                <h6>@details.MenuItem.Name</h6>
+                                                <small class="text-muted">Quantity: @details.Count</small>
+                                            </div>
+                                            <span class="text-muted">Price:$@(details.MenuItem.Price * details.Count)</span>
+                                            @{ total += details.MenuItem.Price * details.Count; }
+                                        </li>
+                                    }
+                                    @if (Model.OrderHeader.CouponCode != null)
+                                    {
+                                        <li class="list-group-item">
+                                            <div class="text-success">
+                                                <h6 class="text-success">Coupon Code:</h6>
+                                                <small class="text-success">@Model.OrderHeader.CouponCode</small>
+                                            </div>
+                                            <span class="text-success">Discounted Price $@(Math.Round((total - Model.OrderHeader.OrderTotalOriginal),2))</span>
+                                        </li>
+                                    }
+                                    <li class="list-group-item">
+                                        <small class="bg-light text-dark">Total Price:</small>
+                                        <span class="bg-light text-dark">Price: $@(Model.OrderHeader.OrderTotalOriginal)</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
