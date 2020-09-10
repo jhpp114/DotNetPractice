@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Spice.Data;
+using Spice.Models;
 using Spice.Models.ViewModels;
 using Spice.Utility;
 
@@ -124,6 +125,45 @@ namespace Spice.Areas.Customer.Controllers
             var cnt = _db.ShoppingCart.Where(s => s.ApplicationUserId == cartData.ApplicationUserId).ToList().Count;
             HttpContext.Session.SetInt32("ssCartCount", cnt);
             return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Summary()
+        {
+            // get currentuser
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claimUser = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            // getting user_name
+            ApplicationUser user = await _db.ApplicationUser.Where(s => s.Id == claimUser.Value).FirstOrDefaultAsync();
+
+            var shoppingCartData = _db.ShoppingCart.Where(s => s.ApplicationUserId == claimUser.Value);
+            orderDetailsCartViewModel = new OrderDetailsCartViewModel()
+            {
+                OrderHeader = new Models.OrderHeader()
+            };
+            orderDetailsCartViewModel.OrderHeader.OrderTotalOriginal = 0;
+            if (shoppingCartData != null)
+            {
+                orderDetailsCartViewModel.ListShoppingCarts = shoppingCartData.ToList();
+            }
+            foreach(var shoppingItem in orderDetailsCartViewModel.ListShoppingCarts)
+            {
+                shoppingItem.MenuItem = await _db.MenuItem.Where(s => s.Id == shoppingItem.MenuItem.Id).FirstOrDefaultAsync();
+                // update the total price
+                orderDetailsCartViewModel.OrderHeader.OrderTotalOriginal += shoppingItem.MenuItem.Price * shoppingItem.Count;
+            }
+            orderDetailsCartViewModel.OrderHeader.OrderTotalDiscount = orderDetailsCartViewModel.OrderHeader.OrderTotalOriginal;
+            // use user name
+            orderDetailsCartViewModel.OrderHeader.PickupName = user.Name;
+            orderDetailsCartViewModel.OrderHeader.Phonenumber = user.PhoneNumber;
+            orderDetailsCartViewModel.OrderHeader.PickupTime = DateTime.Now;
+
+            if (HttpContext.Session.GetString(StaticDetail.ssCoupon) != null)
+            {
+                orderDetailsCartViewModel.OrderHeader.CouponCode = HttpContext.Session.GetString(StaticDetail.ssCoupon);
+                var couponFromDb = await _db.Coupon.Where(s => s.Name.ToLower() == orderDetailsCartViewModel.OrderHeader.CouponCode.ToLower())
+                                                    .FirstOrDefaultAsync();
+                orderDetailsCartViewModel.OrderHeader.OrderTotalOriginal = StaticDetail.DiscountedPrice(couponFromDb, orderDetailsCartViewModel.OrderHeader.OrderTotalOriginal);
+            }
         }
     }
 }
