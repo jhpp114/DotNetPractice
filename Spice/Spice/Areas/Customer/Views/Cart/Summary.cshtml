@@ -57,7 +57,7 @@
                                         <label>Time</label>
                                     </div>
                                     <div class="col-9">
-                                        <input class="form-control" type="text" asp-for="@Model.OrderHeader.PickupTime"/>
+                                        <input class="form-control" type="text" id="timePicker" value="" asp-for="@Model.OrderHeader.PickupTime"/>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -127,6 +127,12 @@
             $(" #datePicker ").datepicker({
                 minDate: 0,
                 maxDate: "+1W"
+            });
+            $(" #timePicker ").timepicker({
+                "scrollDefault": 'now',
+                minTime: 'now',
+                maxTime: '11:00 PM',
+                step: '60'
             });
         });
     </script>
