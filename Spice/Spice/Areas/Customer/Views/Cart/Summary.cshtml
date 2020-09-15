@@ -49,7 +49,7 @@
                                         <label>Date</label>
                                     </div>
                                     <div class="col-9">
-                                        <input class="form-control" type="text" asp-for="@Model.OrderHeader.PickupDate"/>
+                                        <input class="form-control" type="text" id="datePicker" value="" asp-for="@Model.OrderHeader.PickupDate"/>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -120,3 +120,14 @@
     }
 </form>
 
+
+@section Scripts {
+    <script>
+        $(function () {
+            $(" #datePicker ").datepicker({
+                minDate: 0,
+                maxDate: "+1W"
+            });
+        });
+    </script>
+}

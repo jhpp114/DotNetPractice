@@ -11,6 +11,12 @@
     <link rel="stylesheet" href="~/css/site.css" />
     @* FontAWESOME CDN *@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" rel="stylesheet" />
+    @* Jquery Timepicker *@
+    @*<link href="~/css/jquery.timepicker.min.css" rel="stylesheet" />*@
+    @* Jquery Datepicker *@
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    
+
 </head>
 <body class="search_background">
     <header>
@@ -18,7 +24,7 @@
             <div class="container">
                 <a class="navbar-brand" asp-area="Customer" asp-controller="Home" asp-action="Index">
                     <label class="text-info" style="cursor:pointer">Spice</label>
-                </a> 
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -77,6 +83,10 @@
     <script src="https://cdn.tiny.cloud/1/w8jvvt99425g4qvhgaaz1j6jvmlqhemws8dgpr25adz6gjfu/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @* Jquery Timepicker *@
+    @*<script src="~/js/jquery.timepicker.min.js"></script>*@
+    @* Jquery Datepicker *@
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
