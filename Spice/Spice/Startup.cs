@@ -15,6 +15,8 @@ using Microsoft.Extensions.Hosting;
 using Spice.Models;
 using Spice.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Spice.Utility;
+using Stripe;
 
 namespace Spice
 {
@@ -47,7 +49,7 @@ namespace Spice
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.Cookie.HttpOnly = true;
             });
-
+            services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -73,7 +75,7 @@ namespace Spice
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SercretKey"];
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

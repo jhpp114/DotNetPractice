@@ -223,8 +223,9 @@ namespace Spice.Areas.Customer.Controllers
             HttpContext.Session.SetInt32("ssCartCount", 0);
             await _db.SaveChangesAsync();
 
+            return RedirectToAction("Index", "Home");
             // actioname, controller, pass param
-            return RedirectToAction("Confirm", "Order", new { id = orderDetailsCartViewModel.OrderHeader.Id });
+            //return RedirectToAction("Confirm", "Order", new { id = orderDetailsCartViewModel.OrderHeader.Id });
         }
 
     }
