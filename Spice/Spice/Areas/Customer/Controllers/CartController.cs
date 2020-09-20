@@ -156,15 +156,76 @@ namespace Spice.Areas.Customer.Controllers
             orderDetailsCartViewModel.OrderHeader.PickupName = user.Name;
             orderDetailsCartViewModel.OrderHeader.Phonenumber = user.PhoneNumber;
             orderDetailsCartViewModel.OrderHeader.PickupTime = DateTime.Now;
+           
+            if (HttpContext.Session.GetString(StaticDetail.ssCoupon) != null)
+            {
+                orderDetailsCartViewModel.OrderHeader.CouponCode = HttpContext.Session.GetString(StaticDetail.ssCoupon);
+                var couponFromDb = await _db.Coupon.Where(s => s.Name.ToLower() == orderDetailsCartViewModel.OrderHeader.CouponCode.ToLower())
+                                                    .FirstOrDefaultAsync();
+                orderDetailsCartViewModel.OrderHeader.OrderTotalDiscount = StaticDetail.DiscountedPrice(couponFromDb, orderDetailsCartViewModel.OrderHeader.OrderTotalOriginal);
+            }
+            return View(orderDetailsCartViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Summary")]
+        public async Task<IActionResult> SummaryPost()
+        {
+            // claim the current user
+            var claimIdentity = (ClaimsIdentity)User.Identity;
+            var claimUser = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            orderDetailsCartViewModel.ListShoppingCarts = await _db.ShoppingCart.Where(s => s.ApplicationUserId == claimUser.Value).ToListAsync();
+            // update orderheader 
+            orderDetailsCartViewModel.OrderHeader.UserId = claimUser.Value;
+            orderDetailsCartViewModel.OrderHeader.OrderDate = DateTime.Now;
+            orderDetailsCartViewModel.OrderHeader.PaymentStatus = StaticDetail.PaymentStatusPending;
+            orderDetailsCartViewModel.OrderHeader.Status = StaticDetail.PaymentStatusPending;
+            orderDetailsCartViewModel.OrderHeader.PickupTime = Convert.ToDateTime(orderDetailsCartViewModel.OrderHeader.PickupDate.ToShortDateString() + " " + orderDetailsCartViewModel.OrderHeader.PickupTime.ToShortTimeString());
+            await _db.OrderHeader.AddAsync(orderDetailsCartViewModel.OrderHeader);
+            await _db.SaveChangesAsync();
+            orderDetailsCartViewModel.OrderHeader.OrderTotalOriginal = 0;
+
+            List<OrderDetail> orderDetailsList = new List<OrderDetail>();
+            foreach (var shoppingItem in orderDetailsCartViewModel.ListShoppingCarts)
+            {
+                shoppingItem.MenuItem = await _db.MenuItem.FirstOrDefaultAsync(s => s.Id == shoppingItem.MenuItemId);
+                OrderDetail orderdetail = new OrderDetail
+                {
+                    MenuitemId = shoppingItem.MenuItemId,
+                    OrderHeaderId = orderDetailsCartViewModel.OrderHeader.Id,
+                    Description = shoppingItem.MenuItem.Description,
+                    Name = shoppingItem.MenuItem.Name,
+                    Price = shoppingItem.MenuItem.Price,
+                    Count = shoppingItem.Count
+                };
+                orderDetailsCartViewModel.OrderHeader.OrderTotalOriginal += orderdetail.Price * orderdetail.Count;
+                await _db.OrderDetail.AddAsync(orderdetail);
+            }
+            
 
             if (HttpContext.Session.GetString(StaticDetail.ssCoupon) != null)
             {
                 orderDetailsCartViewModel.OrderHeader.CouponCode = HttpContext.Session.GetString(StaticDetail.ssCoupon);
                 var couponFromDb = await _db.Coupon.Where(s => s.Name.ToLower() == orderDetailsCartViewModel.OrderHeader.CouponCode.ToLower())
                                                     .FirstOrDefaultAsync();
-                orderDetailsCartViewModel.OrderHeader.OrderTotalOriginal = StaticDetail.DiscountedPrice(couponFromDb, orderDetailsCartViewModel.OrderHeader.OrderTotalOriginal);
+                orderDetailsCartViewModel.OrderHeader.OrderTotalDiscount = StaticDetail.DiscountedPrice(couponFromDb, orderDetailsCartViewModel.OrderHeader.OrderTotalOriginal);
             }
-            return View(orderDetailsCartViewModel);
+            else
+            {
+                orderDetailsCartViewModel.OrderHeader.OrderTotalDiscount = orderDetailsCartViewModel.OrderHeader.OrderTotalOriginal;
+            }
+            orderDetailsCartViewModel.OrderHeader.CouponDiscount = orderDetailsCartViewModel.OrderHeader.OrderTotalOriginal - orderDetailsCartViewModel.OrderHeader.OrderTotalDiscount;
+            await _db.SaveChangesAsync();
+            // remove from shoppingcart since we are done with shopping
+            _db.ShoppingCart.RemoveRange(orderDetailsCartViewModel.ListShoppingCarts);
+            HttpContext.Session.SetInt32("ssCartCount", 0);
+            await _db.SaveChangesAsync();
+
+            // actioname, controller, pass param
+            return RedirectToAction("Confirm", "Order", new { id = orderDetailsCartViewModel.OrderHeader.Id });
         }
+
     }
 }

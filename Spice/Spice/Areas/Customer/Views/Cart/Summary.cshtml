@@ -95,12 +95,12 @@
                                                 <h6 class="text-success">Coupon Code:</h6>
                                                 <small class="text-success">@Model.OrderHeader.CouponCode</small>
                                             </div>
-                                            <span class="text-success">Discounted Price $@(Math.Round((total - Model.OrderHeader.OrderTotalOriginal),2))</span>
+                                            <span class="text-success">Discounted Price $@(Math.Round((total - Model.OrderHeader.OrderTotalDiscount),2))</span>
                                         </li>
                                     }
                                     <li class="list-group-item">
                                         <small class="bg-light text-dark">Total Price:</small>
-                                        <span class="bg-light text-dark">Price: $@(Model.OrderHeader.OrderTotalOriginal)</span>
+                                        <span class="bg-light text-dark">Price: $@(Model.OrderHeader.OrderTotalDiscount)</span>
                                     </li>
                                 </ul>
                             </div>
