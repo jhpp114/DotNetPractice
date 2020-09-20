@@ -1,4 +1,8 @@
 ﻿@model Spice.Models.ViewModels.OrderDetailsCartViewModel
+
+@using Microsoft.Extensions.Options
+@inject IOptions<Spice.Utility.StripeSettings> Stripe
+
 @{
     ViewData["Title"] = "Summary";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -110,7 +114,25 @@
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-sm-12 col-md-6 text-md-right offset-md-6">
-                                <button class="btn btn-success btn-block form-control" type="submit" onclick="return inputValidation()" value="Place Order" id="orderSubmitBtn">Place Order</button>
+
+                                @{
+                                    var orderTotalForStripe = Model.OrderHeader.OrderTotalDiscount * 100;
+                                }
+                                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                        data-key="@Stripe.Value.PublishableKey"
+                                        data-amount=@orderTotalForStripe
+                                        data-name="Spice Restaurant"
+                                        data-label="Place Order"
+                                        data-description="Sample Charge"
+                                        data-locale="auto"
+                                        data-allow-remember-me="false"
+                                        data-image="https://stripe.com/img/documentation/checkout/marketplace.png">
+                                </script>
+                                <script>
+                                    const stripeDefaultBtn = document.querySelector('.stripe-button-el');
+                                    stripeDefaultBtn.style.display = "none";
+                                </script>
+                                <button class="checkout-button btn btn-success btn-block form-control" type="submit" onclick="return inputValidation()" value="Place Order" id="orderSubmitBtn">Place Order</button>
                             </div>
                         </div>
                     </div>
