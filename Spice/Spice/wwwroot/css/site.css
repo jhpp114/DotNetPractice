@@ -73,6 +73,11 @@ body {
     border-radius: 0.8rem;
 }
 
+.order_info_header {
+    color: maroon;
+}
+
+
 .footer {
     position: absolute;
     bottom: 0;
