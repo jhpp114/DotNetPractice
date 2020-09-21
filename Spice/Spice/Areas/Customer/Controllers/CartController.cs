@@ -255,9 +255,9 @@ namespace Spice.Areas.Customer.Controllers
                 orderDetailsCartViewModel.OrderHeader.PaymentStatus = StaticDetail.PaymentStatusRejected;
             }
             await _db.SaveChangesAsync();
-            return RedirectToAction("Index", "Home");
+            // return RedirectToAction("Index", "Home");
             // actioname, controller, pass param
-            //return RedirectToAction("Confirm", "Order", new { id = orderDetailsCartViewModel.OrderHeader.Id });
+            return RedirectToAction("Confirm", "Order", new { id = orderDetailsCartViewModel.OrderHeader.Id });
         }
 
     }
