@@ -76,7 +76,49 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-12">
-
+                    <br />
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <h6 class="text-muted">Order ID: </h6>
+                        </div>
+                        <div class="col-3">
+                            <span class="text-info">@Model.OrderHeader.Id</span>
+                        </div>
+                    </div>
+                    <ul class="list-group">
+                        @{
+                            var total = 0.0;
+                        }
+                        @foreach (var item in Model.OrderDetail)
+                        {
+                            <li class="list-group-item d-flex justify-content-between">
+                                <div>
+                                    <h6>@item.Name</h6>
+                                    <small>Quantity: @item.Count</small>
+                                </div>
+                                <span class="text-muted">@(item.Count * item.Price)</span>
+                                @{
+                                    total += item.Count * item.Price;
+                                }
+                            </li>
+                        }
+                        @if (Model.OrderHeader.CouponCode != null)
+                        {
+                            <li class="list-group-item d-flex justify-content-between">
+                                <div>
+                                    <h6>Promo Code</h6>
+                                    <small class="text-success">@Model.OrderHeader.CouponCode had Applied</small>
+                                </div>
+                            </li>
+                        }
+                        <li class="list-group-item d-flex justify-content-between">
+                            <div>
+                                <h6>Total (USD)</h6>
+                                <strong class="text-success">@Model.OrderHeader.OrderTotalDiscount</strong>
+                            </div>
+                        </li>
+                    </ul>
+                    <button disabled class="btn btn-block btn-dark text-white">Order Status: @Model.OrderHeader.Status</button>
                 </div>
             </div>
         </form>    
