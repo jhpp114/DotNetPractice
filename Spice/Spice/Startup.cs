@@ -75,7 +75,7 @@ namespace Spice
 
             app.UseAuthentication();
             app.UseAuthorization();
-            StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SercretKey"];
+            StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

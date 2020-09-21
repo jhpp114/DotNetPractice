@@ -10,6 +10,7 @@ using Spice.Data;
 using Spice.Models;
 using Spice.Models.ViewModels;
 using Spice.Utility;
+using Stripe;
 
 namespace Spice.Areas.Customer.Controllers
 {
@@ -170,7 +171,7 @@ namespace Spice.Areas.Customer.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Summary")]
-        public async Task<IActionResult> SummaryPost()
+        public async Task<IActionResult> SummaryPost(string stripeToken)
         {
             // claim the current user
             var claimIdentity = (ClaimsIdentity)User.Identity;
@@ -223,6 +224,37 @@ namespace Spice.Areas.Customer.Controllers
             HttpContext.Session.SetInt32("ssCartCount", 0);
             await _db.SaveChangesAsync();
 
+
+            // make trasnaction using stripe
+            var options = new ChargeCreateOptions
+            {
+                Amount = Convert.ToInt32(orderDetailsCartViewModel.OrderHeader.OrderTotalDiscount * 100),
+                Currency = "usd",
+                Description = "Order ID: " + orderDetailsCartViewModel.OrderHeader.Id,
+                Source= stripeToken
+            };
+            var service = new ChargeService();
+            // create service with options above
+            Charge charge = service.Create(options);
+            if (charge.BalanceTransactionId == null)
+            {
+                orderDetailsCartViewModel.OrderHeader.PaymentStatus = StaticDetail.PaymentStatusRejected;
+            } 
+            else
+            {
+                orderDetailsCartViewModel.OrderHeader.TransactionId = charge.BalanceTransactionId;
+            }
+
+            if (charge.Status.ToLower() == "succeeded")
+            {
+                orderDetailsCartViewModel.OrderHeader.PaymentStatus = StaticDetail.PaymentStatusApproved;
+                orderDetailsCartViewModel.OrderHeader.Status = StaticDetail.OrderSubmitted;
+            }
+            else
+            {
+                orderDetailsCartViewModel.OrderHeader.PaymentStatus = StaticDetail.PaymentStatusRejected;
+            }
+            await _db.SaveChangesAsync();
             return RedirectToAction("Index", "Home");
             // actioname, controller, pass param
             //return RedirectToAction("Confirm", "Order", new { id = orderDetailsCartViewModel.OrderHeader.Id });
