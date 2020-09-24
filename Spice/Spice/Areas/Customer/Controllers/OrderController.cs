@@ -59,5 +59,16 @@ namespace Spice.Areas.Customer.Controllers
             }
             return View(listOrderDetails);
         }
+
+        public async Task<IActionResult> GetOrderDetails(int id)
+        {
+            OrderDetails orderDetailsCartVM = new OrderDetails()
+            {
+                OrderHeader = await _db.OrderHeader.Where(s => s.Id == id).FirstOrDefaultAsync()
+             ,  OrderDetail = await _db.OrderDetail.Where(s => s.Id == id).ToListAsync()
+            };
+            orderDetailsCartVM.OrderHeader.ApplicationUser = await _db.ApplicationUser.FirstOrDefaultAsync(s => s.Id == orderDetailsCartVM.OrderHeader.UserId);
+            return View(orderDetailsCartVM);
+        }
     }
 }
