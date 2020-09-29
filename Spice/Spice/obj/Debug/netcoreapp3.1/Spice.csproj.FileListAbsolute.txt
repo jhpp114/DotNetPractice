@@ -228,3 +228,4 @@ C:\Users\jhpp1\Desktop\DotNetPractice\Spice\Spice\obj\Debug\netcoreapp3.1\Spice.
 C:\Users\jhpp1\Desktop\DotNetPractice\Spice\Spice\obj\Debug\netcoreapp3.1\Spice.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\jhpp1\Desktop\DotNetPractice\Spice\Spice\obj\Debug\netcoreapp3.1\Razor\Areas\Customer\Views\Order\Confirm.cshtml.g.cs
 C:\Users\jhpp1\Desktop\DotNetPractice\Spice\Spice\obj\Debug\netcoreapp3.1\Razor\Areas\Customer\Views\Order\OrderHistory.cshtml.g.cs
+C:\Users\jhpp1\Desktop\DotNetPractice\Spice\Spice\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_IndividualOrderDetail.cshtml.g.cs

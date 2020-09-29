@@ -1,37 +1,20 @@
 ﻿@model Spice.Models.ViewModels.OrderDetails
 @{
     ViewData["Title"] = "Confirm";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<br />
-<div class="search_background_white">
-    <div class="row">
-        <div class="col-8">
-            <h2 class="text-info">Order Confirm</h2>
-        </div>
-        <div class="col-4 text-right">
-            <a asp-controller="Home" asp-action="Index" class="btn btn-success btn-sm form-control">New Order</a>
-        </div>
-    </div>
-    @if (Model.OrderHeader != null)
-    {
-        <div class="order_info_header" style="color: maroon">
-             Your order has been confirmed! Please see the order summary below.
-            <br />
-            Feel free to contact us if you have any questions.
-            <br /> 123-123-1234
-        </div>
-        <form asp-action="" method="post">
-            <div class="border container row">
+
+      
+        <form method="post">
+            <div class="search_background_white border container row">
                 <div class="col-lg-8 col-12" style="border-right: 1px solid black;">
                     <br />
-                    <input type="hidden" asp-for="@Model.OrderHeader.Id"/>
+                    <input type="hidden" asp-for="@Model.OrderHeader.Id" />
                     <div class="form-group row">
                         <div class="col-3">
                             <label>Name</label>
                         </div>
                         <div class="col-8">
-                            <input readonly type="text" asp-for="@Model.OrderHeader.PickupName" class="form-control"/>
+                            <input readonly type="text" asp-for="@Model.OrderHeader.PickupName" class="form-control" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -39,7 +22,7 @@
                             <label>Email</label>
                         </div>
                         <div class="col-8">
-                            <input readonly type="text" asp-for="@Model.OrderHeader.ApplicationUser.Email" class="form-control"/>
+                            <input readonly type="text" asp-for="@Model.OrderHeader.ApplicationUser.Email" class="form-control" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -47,7 +30,7 @@
                             <label>Phonenumber</label>
                         </div>
                         <div class="col-8">
-                            <input readonly type="text" asp-for="@Model.OrderHeader.Phonenumber" class="form-control"/>
+                            <input readonly type="text" asp-for="@Model.OrderHeader.Phonenumber" class="form-control" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -55,7 +38,7 @@
                             <label>Order Total</label>
                         </div>
                         <div class="col-8">
-                            <input readonly type="text" asp-for="@Model.OrderHeader.OrderTotalDiscount" class="form-control"/>
+                            <input readonly type="text" asp-for="@Model.OrderHeader.OrderTotalDiscount" class="form-control" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -121,13 +104,6 @@
                     <button disabled class="btn btn-block btn-dark text-white">Order Status: @Model.OrderHeader.Status</button>
                 </div>
             </div>
-        </form>    
-    }
-    else
-    {
-        <div class="text-danger">
-            Error.... Please try again.
-        </div>
-    }
-</div>
+        </form>
+    
 

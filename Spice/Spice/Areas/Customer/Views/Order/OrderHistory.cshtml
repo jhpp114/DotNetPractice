@@ -40,7 +40,7 @@
                     </th>
                     <th></th>
                 </tr>
-                @foreach(var item in Model)
+                @foreach (var item in Model)
                 {
                     <tr>
                         <td>
@@ -61,6 +61,12 @@
                         <td>
                             @Html.DisplayFor(m => item.OrderDetail.Count)
                         </td>
+                        <td>
+                            <button type="submit" class="btn btn-success anchor-detail" data-id="@item.OrderHeader.Id" data-toggle="modal" data-target="#myModal">
+                                <i class="far fa-list-alt"></i>
+                                Details
+                            </button>
+                        </td>
                     </tr>
                 }
             </table>
@@ -71,4 +77,75 @@
         }
     </main>
 </main>
+@* Modal *@
+<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="myModal">
+    <div class="modal-dialog-centered modal-lg modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-light justify-content-center">
+                <h5 class="modal-title">Order Details</h5>
+            </div>
+            <div class="modal-body justify-content-center" id="modal_content">
 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var PostBackURL = '/Customer/Order/GetOrderDetails';
+        $(function () {
+            $(".anchor-detail").click(function () {
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                //console.log(id);
+                $.ajax({
+                    type: "GET",
+                    url: PostBackURL,
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    cache: false,
+                    dataType: "html",
+                    success: function (data) {
+                        $('#modal_content').html(data);
+                        $('#myModal').modal('show');
+                        console.log(data);
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed");
+                    }
+                });
+            });
+        });
+
+
+        // using javascript
+        //const getModalBtn = document.querySelector('.anchor-detail');
+        //getModalBtn.addEventListener("click", render_orderDetail_modal);
+        //async function render_orderDetail_modal() {
+        //    const getModelIndividualBbtn = document.querySelector('.anchor-detail');
+        //    let data_id = getModelIndividualBbtn.getAttribute('data-id');
+        //    console.log(data_id);
+        //    const POST_DETAIL_MODAL_URL = `/Customer/Order/GetOrderDetails/`;
+        //    try {
+        //        const response = await fetch(`${POST_DETAIL_MODAL_URL}${data_id}`, {
+        //            headers: {
+        //                'Content-Type': 'application/json',
+        //            },
+        //            //body: JSON.stringify(data)
+        //        });
+        //        const data = await response.text();
+        //        console.log(data);
+        //        const myModal = document.querySelector('#myModal');
+        //        const modal_body = document.querySelector('#modal_content');
+        //        modal_body.innerHTML = data;
+                
+        //    } catch (error) {
+        //        console.log(error);     
+        //    }
+        //}
+    </script>
+}
