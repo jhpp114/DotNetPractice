@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Spice.Data;
 using Spice.Models;
 using Spice.Models.ViewModels;
+using Spice.Utility;
 
 namespace Spice.Areas.Customer.Controllers
 {
@@ -60,6 +61,26 @@ namespace Spice.Areas.Customer.Controllers
             return View(listOrderDetails);
         }
 
+        [Authorize(Roles = StaticDetail.KITCHEN_USER + "," + StaticDetail.MANAGER_USER)]
+        public async Task<IActionResult> ManageOrder() 
+        {
+            List<OrderDetails> orderDetailViews = new List<OrderDetails>();
+            List<OrderHeader> listsOfCookOrder = await _db.OrderHeader.Where(s => s.Status == StaticDetail.OrderProcess || s.Status == StaticDetail.MANAGER_USER)
+                                                                        .OrderByDescending(s=> s.PickupTime)
+                                                                        .ToListAsync();
+
+            foreach (var item in listsOfCookOrder) 
+            {
+                OrderDetails individualOrderDetail = new OrderDetails
+                {
+                    OrderHeader = item
+                ,
+                    OrderDetail = await _db.OrderDetail.Where(s => s.OrderHeaderId == item.Id).ToListAsync()
+                };
+                orderDetailViews.Add(individualOrderDetail);
+            }
+            return View(orderDetailViews.OrderBy(s => s.OrderHeader.PickupTime));
+        }
         public async Task<IActionResult> GetOrderDetails(int id)
         {
             OrderDetails orderDetailsCartVM = new OrderDetails()
