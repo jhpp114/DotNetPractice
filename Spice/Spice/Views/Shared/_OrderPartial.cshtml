@@ -1,0 +1,23 @@
+﻿@model Spice.Models.OrderHeader
+@using static Spice.Utility.StaticDetail
+
+<div>
+    @{ 
+        if (Model.Status == OrderSubmitted)
+        {
+            <img src="~/Images/OrderPlaced.png" alt="Order Placed" width="100%"/>
+        }
+        else if (Model.Status == OrderProcess)
+        {
+            <img src="~/Images/InKitchen.png" alt="Order in Kitchen" width="100%"/>
+        }
+        else if (Model.Status == OrderReady) 
+        {
+            <img src="@ReadyForPickUp" alt="Order Ready to Pickup"/>
+        }
+        else
+        {
+            <img src="@Completed" alt="Order Completed"/>
+        }
+    }
+</div>

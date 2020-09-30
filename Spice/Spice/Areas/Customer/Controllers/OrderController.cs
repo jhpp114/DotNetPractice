@@ -70,5 +70,15 @@ namespace Spice.Areas.Customer.Controllers
             orderDetailsCartVM.OrderHeader.ApplicationUser = await _db.ApplicationUser.FirstOrDefaultAsync(s => s.Id == orderDetailsCartVM.OrderHeader.UserId);
             return PartialView("_IndividualOrderDetail", orderDetailsCartVM);
         }
+
+        public async Task<IActionResult> GetOrderStatus(int id)
+        {
+            OrderHeader orderHeader = await _db.OrderHeader.FindAsync(id);
+            if (orderHeader == null)
+            {
+                return NotFound();
+            }
+            return PartialView("_OrderPartial", orderHeader);
+        }
     }
 }

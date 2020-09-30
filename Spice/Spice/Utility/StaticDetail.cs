@@ -26,6 +26,12 @@ namespace Spice.Utility
 		public const string PaymentStatusPending = "Pending";
 		public const string PaymentStatusApproved = "Approved";
 		public const string PaymentStatusRejected = "Rejected";
+
+		public const string OrderPlacedPng = "./Images/OrderPlaced.png";
+		public const string InKitchenPng = "./Images/InKitchen.png";
+		public const string ReadyForPickUp = "./Images/ReadyForPickup.png";
+		public const string Completed = "./Images/completed.png";
+
 		public static string ConvertToRawHtml(string source)
 		{
 			char[] array = new char[source.Length];

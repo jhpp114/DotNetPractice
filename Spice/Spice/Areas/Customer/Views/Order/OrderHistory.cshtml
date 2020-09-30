@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Spice.Models.ViewModels.OrderDetails>
+@using static Spice.Utility.StaticDetail
 @{
     ViewData["Title"] = "OrderHistory";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,7 +12,7 @@
             <h1>OrderDetails Lists</h1>
         </div>
         <div class="col-6 text-right">
-            <a class="btn btn-lg btn-primary text-white" asp-action="Create"><i class="fas fa-plus"></i>&nbsp; CREATE</a>
+            <a class="btn btn-lg btn-primary text-white" asp-area="Customer" asp-controller="Home" asp-action="Index"><i class="fas fa-plus"></i>&nbsp; CREATE</a>
         </div>
     </div>
     <br />
@@ -38,6 +39,7 @@
                     <th>
                         Total Items
                     </th>
+                    <th></th>
                     <th></th>
                 </tr>
                 @foreach (var item in Model)
@@ -67,6 +69,18 @@
                                 Details
                             </button>
                         </td>
+                        <td>
+                            @if (item.OrderHeader.Status == OrderCancel)
+                            {
+
+                            } else
+                            {
+                            <button type="submit" class="btn btn-primary order-status" data-id="@item.OrderHeader.Id" data-toggle="modal" data-target="#myStatusModal">
+                                <i class="far fa-clock"></i>
+                                Status
+                            </button>
+                            }
+                        </td>
                     </tr>
                 }
             </table>
@@ -77,7 +91,7 @@
         }
     </main>
 </main>
-@* Modal *@
+@* Modal for Order Details*@
 <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="myModal">
     <div class="modal-dialog-centered modal-lg modal-dialog" role="document">
         <div class="modal-content">
@@ -94,8 +108,27 @@
     </div>
 </div>
 
+@* Modal for Order Status *@
+<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="myStatusModal">
+    <div class="modal-dialog-centered modal-lg modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-light justify-content-center">
+                <h5 class="modal-title">Order Status</h5>
+            </div>
+            <div class="modal-body justify-content-center" id="modal_Status_Content">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @section scripts {
     <script>
+        const OrderStatusURL = `/Customer/Order/GetOrderStatus`;
         var PostBackURL = '/Customer/Order/GetOrderDetails';
         $(function () {
             $(".anchor-detail").click(function () {
@@ -119,7 +152,29 @@
                     }
                 });
             });
+            $(".order-status").click(function () {
+                var $statusBtnClicked = $(this);
+                var item_id = $statusBtnClicked.attr('data-id');
+                $.ajax({
+                    type: "Get"
+                    , url: OrderStatusURL
+                    , contentType: "application/json; charset=utf-8"
+                    , data: { "Id": item_id }
+                    , cache: false
+                    , dataType: "html"
+                    , success: function (data) {
+                        $('#modal_Status_Content').html(data);
+                        $('#myStatusModal').modal('show');
+                        console.log(data);
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed");
+                    }
+                    
+                });
+            });
         });
+
 
 
         // using javascript
