@@ -81,6 +81,22 @@ namespace Spice.Areas.Customer.Controllers
             }
             return View(orderDetailViews.OrderBy(s => s.OrderHeader.PickupTime).ToList());
         }
+
+        [Authorize(Roles = StaticDetail.MANAGER_USER + "," + StaticDetail.KITCHEN_USER)]
+        public async Task<IActionResult> OrderPrepare(int OrderId) 
+        {
+            OrderHeader targetOrderHeader = await _db.OrderHeader.FindAsync(OrderId);
+            if (targetOrderHeader == null)
+            {
+                return NotFound();
+            }
+            targetOrderHeader.Status = StaticDetail.OrderProcess;
+            await _db.SaveChangesAsync();
+            return RedirectToAction("ManageOrder", "Order");
+        }
+
+
+
         public async Task<IActionResult> GetOrderDetails(int id)
         {
             OrderDetails orderDetailsCartVM = new OrderDetails()

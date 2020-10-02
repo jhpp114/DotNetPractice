@@ -52,7 +52,7 @@
                                 {
                                     <div cl;ass="col-12 d">
                                         <button type="submit" class="btn btn-success form-control mb-3" asp-action="OrderPrepare" asp-route-OrderId="@item.OrderHeader.Id">
-                                            <i class="fas fa-check"></i> &nbsp; Start Cooking 
+                                            <i class="fas fa-check"></i> &nbsp; Start Cooking @item.OrderHeader.Id
                                         </button>
                                         <button type="submit" class="btn btn-danger form-control mb-3" asp-action="OrderCancel" asp-route-OrderId="@item.OrderHeader.Id">
                                             <i class="fas fa-times"></i> &nbsp; Cancel
