@@ -1,0 +1,57 @@
+﻿@model List<Spice.Models.ViewModels.OrderDetails>
+@{
+    ViewData["Title"] = "ManageOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-info">Manage Order's</h2>
+<form method="post">
+    <br />
+    @if (Model.Count > 0) 
+    {
+        <div class="container row search_background_white">
+            @foreach (var item in Model) 
+            {
+                 <div class="col-12 pb-3">
+                    <div class="search_background_white">
+                        <div class="row">
+                            <div class="col-4">
+                                Order Number: @item.OrderHeader.Id
+                                <ul class="text-info">
+                                    @foreach (var eachOrder in item.OrderDetail)
+                                    {
+                                        <li>@eachOrder.Name x @eachOrder.Count</li>
+                                    }
+                                </ul>
+                            </div>
+                            <div class="col-4">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">Time</span>
+                                    </div>
+                                    <input readonly class="form-control" value="@item.OrderHeader.PickupTime" />
+                                </div>
+                                @{ 
+                                    var commentForEmpty = item.OrderHeader.Comments;
+                                    if (commentForEmpty == null || commentForEmpty.Trim().Length == 0)
+                                    {
+                                        item.OrderHeader.Comments = "No Description for order";
+                                    }
+
+                                } 
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">With textarea</span>
+                                    </div>
+                                    <textarea readonly class="form-control" aria-label="With textarea">@item.OrderHeader.Comments</textarea>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</form>
+

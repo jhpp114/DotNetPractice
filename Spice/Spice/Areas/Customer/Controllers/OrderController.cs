@@ -65,7 +65,7 @@ namespace Spice.Areas.Customer.Controllers
         public async Task<IActionResult> ManageOrder() 
         {
             List<OrderDetails> orderDetailViews = new List<OrderDetails>();
-            List<OrderHeader> listsOfCookOrder = await _db.OrderHeader.Where(s => s.Status == StaticDetail.OrderProcess || s.Status == StaticDetail.MANAGER_USER)
+            List<OrderHeader> listsOfCookOrder = await _db.OrderHeader.Where(s => s.Status == StaticDetail.OrderProcess || s.Status == StaticDetail.OrderSubmitted)
                                                                         .OrderByDescending(s=> s.PickupTime)
                                                                         .ToListAsync();
 
@@ -79,7 +79,7 @@ namespace Spice.Areas.Customer.Controllers
                 };
                 orderDetailViews.Add(individualOrderDetail);
             }
-            return View(orderDetailViews.OrderBy(s => s.OrderHeader.PickupTime));
+            return View(orderDetailViews.OrderBy(s => s.OrderHeader.PickupTime).ToList());
         }
         public async Task<IActionResult> GetOrderDetails(int id)
         {
