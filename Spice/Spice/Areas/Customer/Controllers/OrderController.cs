@@ -103,7 +103,7 @@ namespace Spice.Areas.Customer.Controllers
             {
                 return NotFound();
             }
-            targetOrderHeader.Status = StaticDetail.ReadyForPickUp;
+            targetOrderHeader.Status = StaticDetail.OrderReady;
             await _db.SaveChangesAsync();
             return RedirectToAction("ManageOrder", "Order");
         }
@@ -120,6 +120,25 @@ namespace Spice.Areas.Customer.Controllers
             await _db.SaveChangesAsync();
             return RedirectToAction("ManageOrder", "Order");
             
+        }
+
+        [Authorize(Roles = StaticDetail.FRONTDESK_USER + "," + StaticDetail.MANAGER_USER)]
+        public async Task<IActionResult> OrderPickup()
+        {
+            List<OrderDetails> listOrderDetails = new List<OrderDetails>();
+            List<OrderHeader> listOrderHeader = await _db.OrderHeader.Include(s => s.ApplicationUser)
+                                                                        .Where(s => s.Status == StaticDetail.OrderReady)
+                                                                        .ToListAsync();
+            foreach (var individualOrderHeader in listOrderHeader) 
+            {
+                OrderDetails individualOrderDetails = new OrderDetails
+                {
+                    OrderHeader = individualOrderHeader
+                , OrderDetail = await _db.OrderDetail.Where(s => s.OrderHeaderId == individualOrderHeader.Id).ToListAsync()
+                };
+                listOrderDetails.Add(individualOrderDetails);
+            }
+            return View(listOrderDetails);
         }
         public async Task<IActionResult> GetOrderDetails(int id)
         {
