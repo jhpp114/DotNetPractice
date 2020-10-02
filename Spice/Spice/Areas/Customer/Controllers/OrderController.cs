@@ -95,8 +95,32 @@ namespace Spice.Areas.Customer.Controllers
             return RedirectToAction("ManageOrder", "Order");
         }
 
+        [Authorize(Roles = StaticDetail.MANAGER_USER + "," + StaticDetail.KITCHEN_USER)]
+        public async Task<IActionResult> OrderReady(int OrderId) 
+        {
+            OrderHeader targetOrderHeader = await _db.OrderHeader.FindAsync(OrderId);
+            if (targetOrderHeader == null)
+            {
+                return NotFound();
+            }
+            targetOrderHeader.Status = StaticDetail.ReadyForPickUp;
+            await _db.SaveChangesAsync();
+            return RedirectToAction("ManageOrder", "Order");
+        }
 
-
+        [Authorize(Roles =StaticDetail.MANAGER_USER + "," + StaticDetail.KITCHEN_USER)]
+        public async Task<IActionResult> OrderCancel(int OrderId)
+        {
+            OrderHeader targetOrderHeader = await _db.OrderHeader.FindAsync(OrderId);
+            if (targetOrderHeader == null)
+            {
+                return NotFound();
+            }
+            targetOrderHeader.Status = StaticDetail.OrderCancel;
+            await _db.SaveChangesAsync();
+            return RedirectToAction("ManageOrder", "Order");
+            
+        }
         public async Task<IActionResult> GetOrderDetails(int id)
         {
             OrderDetails orderDetailsCartVM = new OrderDetails()
