@@ -1,4 +1,5 @@
 ﻿@model List<Spice.Models.ViewModels.OrderDetails>
+@using Spice.Utility
 @{
     ViewData["Title"] = "ManageOrder";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -46,7 +47,30 @@
                                     <textarea readonly class="form-control" aria-label="With textarea">@item.OrderHeader.Comments</textarea>
                                 </div>
                             </div>
-                            
+                            <div class="col-3 off-set-1 d-flex align-items-center">
+                                @if (item.OrderHeader.Status.Equals(StaticDetail.OrderSubmitted)) 
+                                {
+                                    <div cl;ass="col-12 d">
+                                        <button type="submit" class="btn btn-success form-control mb-3" asp-action="OrderPrepare" asp-route-OrderId="@item.OrderHeader.Id">
+                                            <i class="fas fa-check"></i> &nbsp; Start Cooking 
+                                        </button>
+                                        <button type="submit" class="btn btn-danger form-control mb-3" asp-action="OrderCancel" asp-route-OrderId="@item.OrderHeader.Id">
+                                            <i class="fas fa-times"></i> &nbsp; Cancel
+                                        </button>
+                                    </div>
+                                }
+                                @if (item.OrderHeader.Status.Equals(StaticDetail.OrderProcess)) 
+                                {
+                                    <div cl;ass="col-12 d">
+                                        <button type="submit" class="btn btn-primary form-control mb-3" asp-action="OrderReady" asp-route-OrderId="@item.OrderHeader.Id">
+                                            <i class="fas fa-flag-checkered"></i> &nbsp; Ready to Pick up
+                                        </button>
+                                        <button type="submit" class="btn btn-danger form-control mb-3" asp-action="OrderCancel" asp-route-OrderId="@item.OrderHeader.Id">
+                                            <i class="fas fa-times"></i> &nbsp; Cancel
+                                        </button>
+                                    </div>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
