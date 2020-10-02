@@ -105,22 +105,7 @@ namespace Spice.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     // if the assigning role is not exist then create the roles
-                    if (!await _roleManager.RoleExistsAsync(StaticDetail.CUSTOMER_END_USER))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole(StaticDetail.CUSTOMER_END_USER));
-                    }
-                    if (!await _roleManager.RoleExistsAsync(StaticDetail.KITCHEN_USER))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole(StaticDetail.KITCHEN_USER));
-                    }
-                    if (!await _roleManager.RoleExistsAsync(StaticDetail.FRONTDESK_USER))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole(StaticDetail.FRONTDESK_USER));
-                    }
-                    if (!await _roleManager.RoleExistsAsync(StaticDetail.MANAGER_USER))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole(StaticDetail.MANAGER_USER));
-                    }
+                   
 
                     if (checkBoxValue == StaticDetail.FRONTDESK_USER || checkBoxValue == StaticDetail.KITCHEN_USER || 
                         checkBoxValue == StaticDetail.MANAGER_USER)
