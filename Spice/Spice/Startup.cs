@@ -49,13 +49,15 @@ namespace Spice
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.Cookie.HttpOnly = true;
             });
+            services.AddScoped<IDbInitializer, DbInitializer>();
             services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -76,6 +78,7 @@ namespace Spice
             app.UseAuthentication();
             app.UseAuthorization();
             StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
+            dbInitializer.Initialize();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
