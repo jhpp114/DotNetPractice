@@ -1,8 +1,156 @@
-﻿
+﻿@model IEnumerable<Spice.Models.ViewModels.OrderDetails>
+
 @{
     ViewData["Title"] = "OrderPickup";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>OrderPickup</h1>
+<br />
+<main class="search_background_white">
+    <div class="row">
+        <div class="col-6">
+            <h1>Order Lists for Pick Up</h1>
+        </div>
+        <div class="col-6 text-right">
+            <a class="btn btn-lg btn-primary text-white" asp-area="Customer" asp-controller="Home" asp-action="Index"><i class="fas fa-plus"></i>&nbsp; CREATE</a>
+        </div>
+    </div>
+    <br />
+    <main>
+        @if (Model.Count() > 0)
+        {
+            <table class="table table-striped border">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(m => m.OrderHeader.Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.OrderHeader.PickupName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.OrderHeader.ApplicationUser.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.OrderHeader.PickupTime)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.OrderHeader.OrderTotalDiscount)
+                    </th>
+                    <th>
+                        Total Items
+                    </th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(m => item.OrderHeader.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.OrderHeader.PickupName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.OrderHeader.ApplicationUser.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.OrderHeader.PickupTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.OrderHeader.OrderTotalDiscount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.OrderDetail.Count)
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-success anchor-detail" data-id="@item.OrderHeader.Id" data-toggle="modal" data-target="#myModal">
+                                <i class="far fa-list-alt"></i>
+                                Details
+                            </button>
+                        </td>
+                        
+                    </tr>
+                }
+            </table>
+        }
+        else
+        {
+            <p>No OrderDetails are exist</p>
+        }
+    </main>
+</main>
+@* Modal for Order Details*@
+<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="myModal">
+    <div class="modal-dialog-centered modal-lg modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-light justify-content-center">
+                <h5 class="modal-title">Order Details</h5>
+            </div>
+            <div class="modal-body justify-content-center" id="modal_content">
 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        const OrderStatusURL = `/Customer/Order/GetOrderStatus`;
+        var PostBackURL = '/Customer/Order/GetOrderDetails';
+        $(function () {
+            $(".anchor-detail").click(function () {
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                //console.log(id);
+                $.ajax({
+                    type: "GET",
+                    url: PostBackURL,
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    cache: false,
+                    dataType: "html",
+                    success: function (data) {
+                        $('#modal_content').html(data);
+                        $('#myModal').modal('show');
+                        console.log(data);
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed");
+                    }
+                });
+            });
+        });
+
+
+
+        // using javascript
+        //const getModalBtn = document.querySelector('.anchor-detail');
+        //getModalBtn.addEventListener("click", render_orderDetail_modal);
+        //async function render_orderDetail_modal() {
+        //    const getModelIndividualBbtn = document.querySelector('.anchor-detail');
+        //    let data_id = getModelIndividualBbtn.getAttribute('data-id');
+        //    console.log(data_id);
+        //    const POST_DETAIL_MODAL_URL = `/Customer/Order/GetOrderDetails/`;
+        //    try {
+        //        const response = await fetch(`${POST_DETAIL_MODAL_URL}${data_id}`, {
+        //            headers: {
+        //                'Content-Type': 'application/json',
+        //            },
+        //            //body: JSON.stringify(data)
+        //        });
+        //        const data = await response.text();
+        //        console.log(data);
+        //        const myModal = document.querySelector('#myModal');
+        //        const modal_body = document.querySelector('#modal_content');
+        //        modal_body.innerHTML = data;
+
+        //    } catch (error) {
+        //        console.log(error);
+        //    }
+        //}
+    </script>
+}

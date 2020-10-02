@@ -231,3 +231,4 @@ C:\Users\jhpp1\Desktop\DotNetPractice\Spice\Spice\obj\Debug\netcoreapp3.1\Razor\
 C:\Users\jhpp1\Desktop\DotNetPractice\Spice\Spice\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_IndividualOrderDetail.cshtml.g.cs
 C:\Users\jhpp1\Desktop\DotNetPractice\Spice\Spice\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_OrderPartial.cshtml.g.cs
 C:\Users\jhpp1\Desktop\DotNetPractice\Spice\Spice\obj\Debug\netcoreapp3.1\Razor\Areas\Customer\Views\Order\ManageOrder.cshtml.g.cs
+C:\Users\jhpp1\Desktop\DotNetPractice\Spice\Spice\obj\Debug\netcoreapp3.1\Razor\Areas\Customer\Views\Order\OrderPickup.cshtml.g.cs
